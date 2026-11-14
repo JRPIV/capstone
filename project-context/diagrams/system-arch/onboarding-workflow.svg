@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="onboarding-workflow-title onboarding-workflow-desc" id="onboarding-workflow-root">
+        <title id="onboarding-workflow-title">Onboarding events reach the case through a router</title>
+        <desc id="onboarding-workflow-desc">The workspace sends an event to the case router. The router applies business rules directly, or it asks the reply reader or the policy answerer for one draft. The policy pack is read only into the policy answerer. The case system commits facts. The model tasks do not write the plan.</desc>
+        <defs>
+      <style>#onboarding-workflow-root { --color-paper:   #f5f5f5;
+      --color-ink:     #2d3142;
+      --color-muted:   #4f5d75;
+      --color-accent:  #bf4520;
+      --font-sans:     'Geist', system-ui, sans-serif;
+      --font-serif:    'Instrument Serif', Georgia, serif;
+      --font-mono:     'Geist Mono', ui-monospace, monospace; }
+      #onboarding-workflow-root { font-family: var(--font-sans); color: var(--color-ink); }
+      #onboarding-workflow-root .diagram-container { width: 100%; overflow-x: auto; }</style>
+          <marker id="onboarding-workflow-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/></marker>
+          <marker id="onboarding-workflow-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#bf4520"/></marker>
+          <marker id="onboarding-workflow-arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/></marker>
+        </defs>
+        <rect width="960" height="600" fill="#f5f5f5"/>
+
+        <!-- Arrows before nodes -->
+        <line x1="208" y1="284" x2="320" y2="284" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#onboarding-workflow-arrow-link)"/>
+        <line x1="496" y1="284" x2="720" y2="284" stroke="#bf4520" stroke-width="1.4" marker-end="url(#onboarding-workflow-arrow-accent)"/>
+        <line x1="408" y1="248" x2="408" y2="144" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#onboarding-workflow-arrow)"/>
+        <line x1="408" y1="320" x2="408" y2="424" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#onboarding-workflow-arrow)"/>
+        <path d="M 496,108 H 808 Q 816,108 816,116 V 248" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#onboarding-workflow-arrow)"/>
+        <path d="M 496,460 H 808 Q 816,460 816,452 V 320" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#onboarding-workflow-arrow)"/>
+        <line x1="208" y1="460" x2="320" y2="460" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#onboarding-workflow-arrow)"/>
+
+        <!-- Labels: masks in the gaps, 8px off the stroke -->
+        <rect x="236" y="260" width="56" height="12" rx="2" fill="#f5f5f5"/>
+        <text x="264" y="270" fill="#2e5aa8" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">EVENT</text>
+
+        <rect x="580" y="260" width="56" height="12" rx="2" fill="#f5f5f5"/>
+        <text x="608" y="270" fill="#bf4520" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">RULES</text>
+
+        <rect x="418" y="184" width="52" height="12" rx="2" fill="#f5f5f5"/>
+        <text x="444" y="194" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">REPLY</text>
+
+        <rect x="418" y="360" width="60" height="12" rx="2" fill="#f5f5f5"/>
+        <text x="448" y="370" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">POLICY</text>
+
+        <rect x="736" y="164" width="68" height="12" rx="2" fill="#f5f5f5"/>
+        <text x="770" y="174" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">READING</text>
+
+        <rect x="736" y="372" width="68" height="12" rx="2" fill="#f5f5f5"/>
+        <text x="770" y="382" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">ANSWER</text>
+
+        <rect x="232" y="436" width="64" height="12" rx="2" fill="#f5f5f5"/>
+        <text x="264" y="446" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">P1–P4</text>
+
+        <!-- Workspace -->
+        <rect x="48" y="248" width="160" height="72" rx="6" fill="#f5f5f5"/>
+        <rect x="48" y="248" width="160" height="72" rx="6" fill="#4f5d75" stroke="#5a6580" stroke-width="1" fill-opacity="0.10"/>
+        <rect x="56" y="256" width="40" height="12" rx="2" fill="none" stroke="#5a6580" stroke-width="0.8" stroke-opacity="0.40"/>
+        <text x="76" y="265" fill="#5a6580" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">ACTOR</text>
+        <text x="128" y="286" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Workspace</text>
+        <text x="128" y="304" fill="#4f5d75" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">Hire list · events</text>
+
+        <!-- Reply reader -->
+        <rect x="320" y="72" width="176" height="72" rx="6" fill="#f5f5f5"/>
+        <rect x="320" y="72" width="176" height="72" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+        <rect x="328" y="80" width="44" height="12" rx="2" fill="none" stroke="#2d3142" stroke-width="0.8" stroke-opacity="0.40"/>
+        <text x="350" y="89" fill="#2d3142" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">MODEL</text>
+        <text x="408" y="110" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Reply reader</text>
+        <text x="408" y="128" fill="#4f5d75" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">One structured draft</text>
+
+        <!-- Case router (focal) -->
+        <rect x="320" y="248" width="176" height="72" rx="6" fill="#f5f5f5"/>
+        <rect x="320" y="248" width="176" height="72" rx="6" fill="#bf4520" stroke="#bf4520" stroke-width="1.5" fill-opacity="0.08"/>
+        <rect x="328" y="256" width="40" height="12" rx="2" fill="none" stroke="#bf4520" stroke-width="0.8" stroke-opacity="0.50"/>
+        <text x="348" y="265" fill="#bf4520" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">ROUTE</text>
+        <text x="408" y="286" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Case router</text>
+        <text x="408" y="304" fill="#4f5d75" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">Code picks the chain</text>
+
+        <!-- Case system -->
+        <rect x="720" y="248" width="192" height="72" rx="6" fill="#f5f5f5"/>
+        <rect x="720" y="248" width="192" height="72" rx="6" fill="#2d3142" stroke="#4f5d75" stroke-width="1" fill-opacity="0.05"/>
+        <rect x="728" y="256" width="40" height="12" rx="2" fill="none" stroke="#4f5d75" stroke-width="0.8" stroke-opacity="0.50"/>
+        <text x="748" y="265" fill="#4f5d75" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">STORE</text>
+        <text x="816" y="286" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Case system</text>
+        <text x="816" y="304" fill="#4f5d75" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">Rules commit the plan</text>
+
+        <!-- Policy answerer -->
+        <rect x="320" y="424" width="176" height="72" rx="6" fill="#f5f5f5"/>
+        <rect x="320" y="424" width="176" height="72" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+        <rect x="328" y="432" width="44" height="12" rx="2" fill="none" stroke="#2d3142" stroke-width="0.8" stroke-opacity="0.40"/>
+        <text x="350" y="441" fill="#2d3142" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">MODEL</text>
+        <text x="408" y="462" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Policy answerer</text>
+        <text x="408" y="480" fill="#4f5d75" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">Cited draft only</text>
+
+        <!-- Policy pack -->
+        <rect x="48" y="424" width="160" height="72" rx="6" fill="#f5f5f5"/>
+        <rect x="48" y="424" width="160" height="72" rx="6" fill="#2d3142" stroke="#4f5d75" stroke-width="1" fill-opacity="0.05"/>
+        <rect x="56" y="432" width="36" height="12" rx="2" fill="none" stroke="#4f5d75" stroke-width="0.8" stroke-opacity="0.50"/>
+        <text x="74" y="441" fill="#4f5d75" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">PACK</text>
+        <text x="128" y="462" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Policy pack</text>
+        <text x="128" y="480" fill="#4f5d75" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">P1–P4 only</text>
+
+        <line x1="48" y1="528" x2="912" y2="528" stroke="#2d3142" stroke-width="0.8" stroke-opacity="0.12"/>
+        <text x="48" y="548" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
+        <rect x="48" y="564" width="14" height="10" rx="2" fill="#bf4520" stroke="#bf4520" stroke-width="1" fill-opacity="0.08"/>
+        <text x="70" y="573" fill="#4f5d75" font-size="8.5" font-family="'Geist', system-ui, sans-serif">Router</text>
+        <rect x="140" y="564" width="14" height="10" rx="2" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+        <text x="162" y="573" fill="#4f5d75" font-size="8.5" font-family="'Geist', system-ui, sans-serif">Model task</text>
+        <rect x="260" y="564" width="14" height="10" rx="2" fill="#2d3142" stroke="#4f5d75" stroke-width="1" fill-opacity="0.05"/>
+        <text x="282" y="573" fill="#4f5d75" font-size="8.5" font-family="'Geist', system-ui, sans-serif">Store</text>
+        <rect x="348" y="564" width="14" height="10" rx="2" fill="#4f5d75" stroke="#5a6580" stroke-width="1" fill-opacity="0.10"/>
+        <text x="370" y="573" fill="#4f5d75" font-size="8.5" font-family="'Geist', system-ui, sans-serif">Workspace</text>
+        <line x1="470" y1="569" x2="498" y2="569" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#onboarding-workflow-arrow-link)"/>
+        <text x="506" y="573" fill="#4f5d75" font-size="8.5" font-family="'Geist', system-ui, sans-serif">Event</text>
+        <line x1="568" y1="569" x2="596" y2="569" stroke="#bf4520" stroke-width="1.4" marker-end="url(#onboarding-workflow-arrow-accent)"/>
+        <text x="604" y="573" fill="#4f5d75" font-size="8.5" font-family="'Geist', system-ui, sans-serif">Rules</text>
+        <line x1="664" y1="569" x2="692" y2="569" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#onboarding-workflow-arrow)"/>
+        <text x="700" y="573" fill="#4f5d75" font-size="8.5" font-family="'Geist', system-ui, sans-serif">Draft or pack read</text>
+      </svg>

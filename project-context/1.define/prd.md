@@ -28,18 +28,89 @@ Keep policy exceptions and business approvals with people while the system manag
 
 **Demonstration segment:** Customer Support Representatives at a fictional Austin, Texas office. This retains the supplied PRD’s concrete scenario; it replaces the MRD’s illustrative role/location suggestion without changing its one-role, one-location scope.
 
-| User | Responsibility | What the product provides |
-|---|---|---|
-| HR coordinator | Review the plan; approve held plans; handle escalations | Readiness summary, evidence, and recorded decisions |
-| Hiring manager | Confirm role; arrange the first-day meeting; own training | Targeted requests and a current task schedule |
-| IT fulfiller | Confirm assigned equipment or an approved loaner | Complete equipment requests and a record of commitments |
-| New hire | Acknowledge policies; ask onboarding questions | Clear tasks and answers supported by approved policy |
-
-**Primary journey:** Receive record → resolve missing role → activate four-task plan → coordinate replies → update affected work → review readiness.
+**Primary journey:** Receive record → resolve a missing role and obtain HR approval when required → activate the four-task plan → coordinate replies → update affected work → review readiness. A complete, supported record activates automatically.
 
 **User needs and adoption.** HR needs to understand the next action without reconstructing a conversation. Participants need specific requests addressed to the right owner. An additional interface or excessive reminders could add work; the prototype therefore keeps replies beside the relevant task and limits follow-up.
 
 **Alternatives and positioning.** Workday, SAP, ServiceNow, Enboarder, and ClearCompany offer overlapping capabilities, as documented in the MRD. Email, spreadsheets, and IT tickets are additional alternatives to validate in interviews. The proposed position is a coordinator that keeps the plan and its supporting evidence consistent when circumstances change. No exclusivity or price advantage is claimed.
+
+### Business Process Overview
+
+The business process starts when a new-hire record is submitted. It produces an owned, dated onboarding plan and a current answer to HR’s main question: **Is this employee prepared to start, and if not, who needs to do what next?**
+
+The MVP coordinates four tasks: policy acknowledgment, equipment readiness, a first-day manager meeting, and customer-support tools orientation. It records requests, replies, confirmations, and HR decisions beside those tasks. HR can review the remaining issues without reconstructing an entire conversation.
+
+In the demonstration, one operator plays the HR coordinator, hiring manager, IT fulfiller, and new hire through a role selector in the browser workspace. Requests and replies are simulated local messages. In a future operating environment, these would represent handoffs between separate people and teams.
+
+#### Process at a glance
+
+![Onboarding process: activate the plan, coordinate four owned tasks, and check day-one readiness, with clarification and start-date-change rules.](diagrams/onboarding-process.svg)
+
+*Figure 1. The main flow leads from intake to day-one readiness. The lower panels describe how uncertainty and start-date changes affect that flow. Detailed rules and evidence requirements follow below and in Appendix A.*
+
+#### People and responsibilities
+
+| Participant | Business responsibility | What they provide or decide |
+|---|---|---|
+| HR coordinator | Oversee the onboarding case and handle exceptions | Approve plans held for missing role information; review unsupported inputs and escalations; record decisions and reasons |
+| Hiring manager | Confirm the role and arrange the employee’s introduction to the work | Confirm the role when requested, confirm the first-day meeting, schedule orientation, and record orientation completion |
+| IT fulfiller | Arrange suitable equipment | Explicitly commit to an assigned laptop or approved loaner and its ready date; report when no suitable device is available or a commitment is revoked |
+| New hire | Complete policy acknowledgment and raise onboarding questions | Record acknowledgment and ask questions about the approved policies |
+| Application | Keep the shared plan accurate and actionable | Create the approved tasks, calculate deadlines, request missing facts, validate replies, flag overdue work, escalate unresolved issues, and display readiness |
+
+AI assists with interpreting written replies and drafting policy answers. It does not approve a plan, arrange equipment, hold a meeting, or complete training on anyone’s behalf.
+
+#### The four onboarding tasks
+
+The four tasks form the supported plan; execution begins after activation. The manager and IT may supply facts beforehand, but those facts do not activate a held plan. Owners and timing follow Appendix A. Dates use Austin local time and Monday–Friday business days, without a holiday calendar. Deadlines are 5 p.m. unless the equipment start-of-work requirement applies.
+
+| Task | Responsible person | Deadline | Evidence and completion rule | Requirement for day-one readiness |
+|---|---|---|---|---|
+| Policy acknowledgment | New hire | Two business days before the start date | The new hire records acknowledgment of the written policies. Late acknowledgment is marked late but remains valid. | Acknowledgment must be complete. |
+| Equipment readiness | IT fulfiller | Ready for the start of work on the start date | IT explicitly commits to an assigned laptop or approved loaner with a ready date on or before the start date. A possible device or delivery estimate is insufficient. Actual fulfillment can be recorded separately. | A valid IT commitment must exist and must not have been revoked. |
+| First-day meeting | Hiring manager | Current start date | The manager confirms the meeting for that date. The task is complete only after the meeting has been held. | The meeting must be confirmed; it need not already have happened. |
+| Customer-support tools orientation | Hiring manager | Five business days after the start date | The manager owns scheduling and records completion. Equipment is not a prerequisite for assigning or scheduling this task in the demonstration. | Training must be assigned to the manager with a valid deadline; it need not already be complete. |
+
+**Ready means the required arrangements and acknowledgment are in place for day one. It does not mean every onboarding task has been completed.** Meeting and training completion remain separate from readiness. An unresolved equipment issue does not stop the other three tasks from progressing.
+
+#### Process from intake to readiness
+
+1. **Receive the new-hire record.** The operator submits the record through the workspace. The business information includes employee identity, start date, role, office, and designated manager. The application associates it with a unique hire ID and submission event ID. The complete set of mandatory intake fields and the handling of each missing field remain an open product decision; the SAD will define the corresponding validation contract.
+
+2. **Check whether the record supports a plan.** A complete record for a Customer Support Representative, including the alias “CSR,” in Austin creates and activates the four-task plan automatically. An unreadable input produces an error. An incomplete input identifies missing fields. A clearly unsupported role or location goes to HR review without inventing tasks or asking someone to change the record just to fit the demonstration.
+
+3. **Resolve a missing role before activation.** A blank role produces one request to the designated manager and no tasks. An authorized manager response establishing the supported role creates a proposed plan awaiting HR approval. HR then activates that plan. If the reply is ambiguous, the application follows the clarification process below. Information supplied by other participants cannot establish the role, and later factual confirmations cannot substitute for HR approval.
+
+4. **Create the owned, dated work plan.** Once active, the plan shows the four tasks, their owners, calculated deadlines, and any existing evidence. Deadlines that have already passed are shown as overdue; the application does not silently move them. Participants can work on the tasks independently where the rules allow it.
+
+5. **Collect updates and check the evidence.** Each participant submits replies or task updates under their simulated identity. The application checks both the sender’s authority and the content. For example, IT can confirm equipment, while the manager can confirm the first-day meeting. An AI interpretation is a proposal until those checks pass. The task displays the accepted evidence and the next required action.
+
+6. **Clarify uncertainty or escalate it.** An insufficient reply produces one targeted follow-up stating the missing fact and an explicit response deadline. A second insufficient reply in the same round, or no sufficient reply by the deadline, escalates to HR. A definite equipment denial establishing that no permitted device is available by the start date marks equipment blocked and escalates without another clarification. Repeated or unchanged messages do not restart the follow-up allowance; a materially new fact may open a new round.
+
+7. **Review readiness and make human decisions.** The workspace shows **Ready** only when policy acknowledgment is complete, equipment is confirmed, the current first-day meeting is manager-confirmed, and training is assigned with a valid deadline. Otherwise it shows **Needs attention**, the reasons, the responsible people, and the next actions. HR can record a decision to proceed despite an exception, but the unresolved task and missing evidence remain visible. Sufficient later authorized evidence can close a factual escalation while retaining its history.
+
+8. **Keep the plan current when circumstances change.** A start-date change recalculates unfinished deadlines and preserves completed work. An unheld meeting needs confirmation for the new date. Equipment is checked against the new start: a confirmed device remains reserved from its ready date unless IT revokes it, while a delivery estimate remains an estimate. Role or location changes after activation go to HR review. Changes affecting previous decisions flag those decisions for review and preserve their earlier versions.
+
+Policy questions can arise throughout this process. The application answers only from approved passages P1–P4 and cites the supporting passage. Questions about pay, overtime, remote work, or legal eligibility go to HR. An explanation of loaner policy does not reserve a device or update equipment readiness.
+
+**Process boundary:** The MVP establishes day-one readiness and continues to track task evidence, including training completion. A formal rule for closing or archiving the overall case is not yet defined. Likewise, the demonstration begins with manual record submission; a production recruiting-to-HR trigger is outside the current integration scope.
+
+#### Worked example: Jordan Lee
+
+The following sequence uses the fictional dates and participants in Appendix A. It illustrates the process; it is not a record of a completed test.
+
+| Step | Business event | Application response and next action |
+|---|---|---|
+| 1. Intake | On February 27, 2026, at 9 a.m., the operator loads Jordan’s record. Jordan starts March 2 in Austin, reports to Sam Ortiz, and has no role recorded. | Ask Sam to confirm the role. No onboarding tasks are created yet. |
+| 2. Role confirmation | Sam replies, “We hired a CSR.” | Recognize the supported role and create a proposed plan. It remains held for HR approval. |
+| 3. Plan activation | HR coordinator Alex Rivera approves the held plan. | Activate the four tasks: policy acknowledgment due February 26, equipment ready for the start of work March 2, meeting due March 2, and orientation due March 9. The incomplete policy task is already overdue and is shown that way. |
+| 4. Uncertain equipment | IT fulfiller Taylor Brooks says, “The assigned laptop won’t arrive until Thursday, but a loaner may be available Monday.” | Interpret Thursday as March 5 and Monday as March 2. Keep equipment unconfirmed. Send one follow-up citing P2 and asking IT to commit to an available device and ready date. Other tasks can continue. |
+| 5. Equipment commitment | Taylor replies, “Yes. A loaner will be ready on Monday, March 2.” | Record the authorized commitment and confirm equipment for the start date. Keep both messages as evidence. Equipment confirmation alone does not make the overall case Ready. |
+| 6. Remaining arrangements | Jordan records policy acknowledgment, Sam confirms the March 2 meeting, and orientation is assigned to Sam with the March 9 deadline. | Mark acknowledgment complete but late. With the equipment commitment and the other requirements satisfied, show Ready. The meeting and orientation may still be pending execution. |
+| 7. Changed start | An accepted start-date change moves Jordan’s start to March 9 before the original meeting has been held. | Preserve completed acknowledgment. Keep the March 2 equipment commitment valid under P2 unless revoked. Require meeting reconfirmation for March 9 and move unfinished orientation to March 16. Show Needs attention until the meeting is reconfirmed. |
+| 8. Reconfirmed arrangements | Sam confirms the meeting for March 9. | Return to Ready if the other readiness conditions still hold. Retain the previous schedule, messages, and HR approval in history. |
+
+If Taylor instead cannot confirm a device, the application follows the clarification or escalation rule appropriate to that reply. HR sees the unresolved equipment issue and can record a disposition; that decision cannot manufacture an equipment confirmation.
 
 ## 3. Technical Requirements & Architecture
 
@@ -248,12 +319,15 @@ A commercial launch is outside this release. The next discovery step would be in
 1. **Course architecture requirement:** Must the capstone demonstrate multiple autonomous agents, or can a coordinator with tools satisfy the rubric? Confirm before the SAD assigns work.
 2. **Model budget:** What spend limit and model/provider should govern development and scored runs? This determines execution limits and operating-cost measurement.
 3. **Customer validation access:** Is an HR or IT practitioner available to review the workflow? If not, Week 6 can validate specified behavior, while customer usefulness remains unvalidated.
+4. **Intake ownership and completeness:** Who owns submission of the new-hire record, which fields are mandatory, and what must happen when a required field other than role is missing? The demonstration begins with manual submission; a production recruiting-to-HR trigger is outside MVP scope.
+5. **Case completion:** When does onboarding formally end, and when should the case close or be archived? Day-one readiness is distinct from task completion. Define the closing milestone and its relationship to P2’s device reservation period before implementing automatic closure; no such behavior is currently specified.
 
 ## Audit
 
-- **Revision date:** November 5, 2026.
+- **Initial baseline date:** November 5, 2026.
+- **Revision date:** November 13, 2026.
 - **Persona ID:** product-mgr, as required by the document template.
-- **Action:** PRD editorial rewrite and alignment with the revised MRD.
+- **Action:** Define the business process, process diagram, participant responsibilities, task deadlines and evidence, and the Jordan walkthrough; retain BR-1–BR-7, FR-01–FR-07, D1–D12, and Appendix A. Record outstanding intake and case-closure decisions.
 - **Selected runtime:** CrewAI, from supplied project materials; environment resolution not independently checked.
 
 ## Appendix A — Synthetic Policies and Evaluation Fixtures

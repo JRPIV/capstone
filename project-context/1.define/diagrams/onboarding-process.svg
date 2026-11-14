@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1850" viewBox="0 0 1600 1850" role="img" aria-labelledby="title desc">
+<title id="title">Employee onboarding: from intake to day-one readiness</title>
+<desc id="desc">A complete supported intake activates a four-task plan. A missing role requires manager confirmation and HR approval. Unsupported inputs go to HR review. The four tasks are policy acknowledgment, equipment readiness, a first-day meeting, and orientation. Ready requires acknowledgment complete, equipment confirmed, the current meeting confirmed, and training assigned with a valid deadline. Unclear replies receive one follow-up, then HR escalation if still insufficient or overdue. Start-date changes preserve completed work and trigger appropriate rescheduling and reconfirmation.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#637d89"/></marker></defs>
+<rect width="1600" height="1850" fill="#f7f9fa"/>
+<g font-family="Helvetica Neue, Arial, sans-serif">
+<text x="60" y="70" font-size="44" fill="#193342" font-weight="600" text-anchor="start">Employee onboarding</text>
+<text x="60" y="110" font-size="26" fill="#49616e" font-weight="400" text-anchor="start">From a new-hire record to a clear day-one readiness decision</text>
+<text x="1540" y="66" font-size="20" fill="#086c68" font-weight="600" text-anchor="end">MVP PROCESS</text>
+<text x="1540" y="99" font-size="20" fill="#49616e" font-weight="400" text-anchor="end">CSR · Austin · Simulated participants</text>
+<circle cx="79" cy="162" r="19" fill="#086c68"/>
+<text x="79" y="169" font-size="21" fill="#ffffff" font-weight="600" text-anchor="middle">1</text>
+<text x="112" y="170" font-size="28" fill="#193342" font-weight="600" text-anchor="start">Activate the plan</text>
+<text x="1540" y="170" font-size="21" fill="#49616e" font-weight="400" text-anchor="end">HR oversight · Manager confirms missing role</text>
+<rect x="400" y="198" width="800" height="84" rx="16" fill="#e9f2f3" stroke="#aecbcd" stroke-width="1.5"/>
+<text x="800" y="231" font-size="27" fill="#193342" font-weight="600" text-anchor="middle">Submit and check the new-hire record</text>
+<text x="800" y="261" font-size="22" fill="#49616e" font-weight="400" text-anchor="middle">Employee · role · location · start date · designated manager</text>
+<path d="M800 282 V309 H285 V337" fill="none" stroke="#637d89" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M800 309 V337" fill="none" stroke="#637d89" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M800 309 H1315 V337" fill="none" stroke="#637d89" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="60" y="339" width="450" height="149" rx="16" fill="#ffffff" stroke="#ccd8dd" stroke-width="1.5"/>
+<text x="84" y="375" font-size="26" fill="#086c68" font-weight="600" text-anchor="start">Complete + supported</text>
+<text x="84" y="411" font-size="23" fill="#193342" font-weight="400" text-anchor="start">Customer Support Representative</text>
+<text x="84" y="442" font-size="23" fill="#193342" font-weight="400" text-anchor="start">in Austin → activate automatically</text>
+<rect x="575" y="339" width="450" height="149" rx="16" fill="#fff7e9" stroke="#e2c590" stroke-width="1.5"/>
+<text x="599" y="375" font-size="26" fill="#8a5210" font-weight="600" text-anchor="start">Role missing</text>
+<text x="599" y="411" font-size="23" fill="#193342" font-weight="400" text-anchor="start">Ask manager → supported role</text>
+<text x="599" y="442" font-size="23" fill="#193342" font-weight="400" text-anchor="start">Proposed plan → HR approval</text>
+<text x="599" y="472" font-size="20" fill="#49616e" font-weight="400" text-anchor="start">No tasks before the role is established.</text>
+<rect x="1090" y="339" width="450" height="149" rx="16" fill="#f1f3f5" stroke="#ccd8dd" stroke-width="1.5"/>
+<text x="1114" y="375" font-size="26" fill="#193342" font-weight="600" text-anchor="start">Other intake issues</text>
+<text x="1114" y="410" font-size="21" fill="#193342" font-weight="400" text-anchor="start">Unsupported role/location → HR</text>
+<text x="1114" y="440" font-size="21" fill="#193342" font-weight="400" text-anchor="start">Missing fields → show what is needed</text>
+<text x="1114" y="470" font-size="21" fill="#193342" font-weight="400" text-anchor="start">Unreadable input → error; no plan</text>
+<path d="M285 488 V550 H399" fill="none" stroke="#637d89" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M800 488 V520" fill="none" stroke="#637d89" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="400" y="522" width="800" height="76" rx="16" fill="#e9f2f3" stroke="#aecbcd" stroke-width="1.5"/>
+<text x="800" y="554" font-size="27" fill="#193342" font-weight="600" text-anchor="middle">Active plan: four owned, dated tasks</text>
+<text x="800" y="582" font-size="21" fill="#49616e" font-weight="400" text-anchor="middle">Keep evidence, requests, replies, and decisions with the case.</text>
+<circle cx="79" cy="651" r="19" fill="#086c68"/>
+<text x="79" y="658" font-size="21" fill="#ffffff" font-weight="600" text-anchor="middle">2</text>
+<text x="112" y="659" font-size="28" fill="#193342" font-weight="600" text-anchor="start">Coordinate the four tasks</text>
+<text x="1540" y="659" font-size="21" fill="#49616e" font-weight="400" text-anchor="end">Work can progress independently; equipment does not block the other tasks.</text>
+<path d="M800 598 V615 H1565 V691 H235 V713" fill="none" stroke="#637d89" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M615 691 V713" fill="none" stroke="#637d89" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M995 691 V713" fill="none" stroke="#637d89" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M1375 691 V713" fill="none" stroke="#637d89" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="60" y="715" width="340" height="220" rx="16" fill="#ffffff" stroke="#ccd8dd" stroke-width="1.5"/>
+<text x="81" y="748" font-size="18" fill="#086c68" font-weight="600" text-anchor="start">NEW HIRE</text>
+<text x="81" y="782" font-size="24" fill="#193342" font-weight="600" text-anchor="start">Policy acknowledgment</text>
+<text x="81" y="816" font-size="20" fill="#49616e" font-weight="400" text-anchor="start">Due: start − 2 business days</text>
+<text x="81" y="857" font-size="20" fill="#193342" font-weight="400" text-anchor="start">Ready when:</text>
+<text x="81" y="885" font-size="20" fill="#193342" font-weight="400" text-anchor="start">Acknowledgment is complete.</text>
+<path d="M230 935 V963" fill="none" stroke="#637d89" stroke-width="2.5" stroke-linejoin="round"/>
+<rect x="440" y="715" width="340" height="220" rx="16" fill="#ffffff" stroke="#ccd8dd" stroke-width="1.5"/>
+<text x="461" y="748" font-size="18" fill="#086c68" font-weight="600" text-anchor="start">IT</text>
+<text x="461" y="782" font-size="24" fill="#193342" font-weight="600" text-anchor="start">Equipment</text>
+<text x="461" y="816" font-size="20" fill="#49616e" font-weight="400" text-anchor="start">Due: start of work, day one</text>
+<text x="461" y="857" font-size="20" fill="#193342" font-weight="400" text-anchor="start">Ready when: IT commits to</text>
+<text x="461" y="885" font-size="20" fill="#193342" font-weight="400" text-anchor="start">a laptop or approved loaner</text>
+<text x="461" y="913" font-size="20" fill="#193342" font-weight="400" text-anchor="start">ready on or before the start.</text>
+<path d="M610 935 V963" fill="none" stroke="#637d89" stroke-width="2.5" stroke-linejoin="round"/>
+<rect x="820" y="715" width="340" height="220" rx="16" fill="#ffffff" stroke="#ccd8dd" stroke-width="1.5"/>
+<text x="841" y="748" font-size="18" fill="#086c68" font-weight="600" text-anchor="start">HIRING MANAGER</text>
+<text x="841" y="782" font-size="24" fill="#193342" font-weight="600" text-anchor="start">First-day meeting</text>
+<text x="841" y="816" font-size="20" fill="#49616e" font-weight="400" text-anchor="start">Due: current start date</text>
+<text x="841" y="857" font-size="20" fill="#193342" font-weight="400" text-anchor="start">Ready when: manager confirms</text>
+<text x="841" y="885" font-size="20" fill="#193342" font-weight="400" text-anchor="start">the meeting for that date.</text>
+<path d="M990 935 V963" fill="none" stroke="#637d89" stroke-width="2.5" stroke-linejoin="round"/>
+<rect x="1200" y="715" width="340" height="220" rx="16" fill="#ffffff" stroke="#ccd8dd" stroke-width="1.5"/>
+<text x="1221" y="748" font-size="18" fill="#086c68" font-weight="600" text-anchor="start">HIRING MANAGER</text>
+<text x="1221" y="782" font-size="24" fill="#193342" font-weight="600" text-anchor="start">Tools orientation</text>
+<text x="1221" y="816" font-size="20" fill="#49616e" font-weight="400" text-anchor="start">Due: start + 5 business days</text>
+<text x="1221" y="857" font-size="20" fill="#193342" font-weight="400" text-anchor="start">Ready when: assigned to the</text>
+<text x="1221" y="885" font-size="20" fill="#193342" font-weight="400" text-anchor="start">manager with a valid deadline.</text>
+<path d="M1370 935 V963" fill="none" stroke="#637d89" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M230 963 H1370" fill="none" stroke="#637d89" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M800 963 V1030" fill="none" stroke="#637d89" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="79" cy="1007" r="19" fill="#086c68"/>
+<text x="79" y="1014" font-size="21" fill="#ffffff" font-weight="600" text-anchor="middle">3</text>
+<text x="112" y="1015" font-size="28" fill="#193342" font-weight="600" text-anchor="start">Check day-one readiness</text>
+<text x="1540" y="1015" font-size="21" fill="#49616e" font-weight="400" text-anchor="end">Readiness comes from verified evidence, not an AI decision.</text>
+<rect x="400" y="1033" width="800" height="82" rx="16" fill="#e9f2f3" stroke="#aecbcd" stroke-width="1.5"/>
+<text x="800" y="1067" font-size="27" fill="#193342" font-weight="600" text-anchor="middle">Are all four readiness conditions satisfied?</text>
+<text x="800" y="1097" font-size="21" fill="#49616e" font-weight="400" text-anchor="middle">Recheck whenever accepted evidence or the start date changes.</text>
+<path d="M800 1115 V1140 H410 V1175" fill="none" stroke="#637d89" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M800 1140 H1190 V1175" fill="none" stroke="#637d89" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="605" y="1134" font-size="20" fill="#086c68" font-weight="600" text-anchor="start">Yes</text>
+<text x="980" y="1134" font-size="20" fill="#8a5210" font-weight="600" text-anchor="start">No</text>
+<rect x="60" y="1178" width="700" height="108" rx="16" fill="#e7f4ed" stroke="#b3d7bf" stroke-width="1.5"/>
+<text x="87" y="1216" font-size="27" fill="#216443" font-weight="600" text-anchor="start">READY FOR DAY ONE</text>
+<text x="87" y="1250" font-size="23" fill="#193342" font-weight="400" text-anchor="start">Meeting and orientation can still await completion.</text>
+<rect x="840" y="1178" width="700" height="108" rx="16" fill="#fff7e9" stroke="#e2c590" stroke-width="1.5"/>
+<text x="867" y="1216" font-size="27" fill="#8a5210" font-weight="600" text-anchor="start">NEEDS ATTENTION</text>
+<text x="867" y="1250" font-size="23" fill="#193342" font-weight="400" text-anchor="start">Show what is missing, who owns it, and the next action.</text>
+<rect x="60" y="1323" width="720" height="344" rx="16" fill="#ffffff" stroke="#ccd8dd" stroke-width="1.5"/>
+<text x="87" y="1366" font-size="26" fill="#193342" font-weight="600" text-anchor="start">When a reply is unclear or work is blocked</text>
+<text x="87" y="1404" font-size="22" fill="#193342" font-weight="400" text-anchor="start">1   First insufficient reply → one targeted follow-up.</text>
+<text x="87" y="1435" font-size="22" fill="#193342" font-weight="400" text-anchor="start">     Name the missing fact and give a response deadline.</text>
+<text x="87" y="1480" font-size="22" fill="#193342" font-weight="400" text-anchor="start">2   Second insufficient reply, or silence at the deadline</text>
+<text x="87" y="1511" font-size="22" fill="#193342" font-weight="400" text-anchor="start">     → escalate to HR. A definite device denial goes to HR.</text>
+<text x="87" y="1556" font-size="22" fill="#193342" font-weight="400" text-anchor="start">3   Sufficient authorized evidence → update the task</text>
+<text x="87" y="1587" font-size="22" fill="#193342" font-weight="400" text-anchor="start">     and recheck readiness; keep the history.</text>
+<text x="87" y="1636" font-size="20" fill="#8a5210" font-weight="500" text-anchor="start">An HR exception does not turn missing evidence into confirmation.</text>
+<rect x="810" y="1323" width="730" height="344" rx="16" fill="#ffffff" stroke="#ccd8dd" stroke-width="1.5"/>
+<text x="837" y="1366" font-size="26" fill="#193342" font-weight="600" text-anchor="start">When the start date changes</text>
+<text x="837" y="1410" font-size="23" fill="#193342" font-weight="400" text-anchor="start">Preserve completed work.</text>
+<text x="837" y="1449" font-size="23" fill="#193342" font-weight="400" text-anchor="start">Recalculate unfinished deadlines.</text>
+<text x="837" y="1488" font-size="23" fill="#193342" font-weight="400" text-anchor="start">Reconfirm a meeting that has not yet been held.</text>
+<text x="837" y="1527" font-size="23" fill="#193342" font-weight="400" text-anchor="start">Recheck equipment against the new start date.</text>
+<text x="837" y="1588" font-size="21" fill="#49616e" font-weight="400" text-anchor="start">Then recheck all four readiness conditions.</text>
+<text x="837" y="1620" font-size="21" fill="#49616e" font-weight="400" text-anchor="start">Role/location changes after activation → HR review.</text>
+<path d="M60 1710 H1540" fill="none" stroke="#ccd8dd" stroke-width="2.5" stroke-linejoin="round"/>
+<text x="60" y="1749" font-size="23" fill="#193342" font-weight="600" text-anchor="start">Policy help throughout</text>
+<text x="340" y="1749" font-size="22" fill="#49616e" font-weight="400" text-anchor="start">Answer from approved P1–P4 passages; send unsupported questions to HR.</text>
+<text x="60" y="1793" font-size="20" fill="#49616e" font-weight="400" text-anchor="start">Timing: Austin local time · Monday–Friday · no holidays · 5 p.m. deadlines except equipment at start of work.</text>
+<text x="60" y="1826" font-size="19" fill="#49616e" font-weight="400" text-anchor="start">Source: PRD business process, BR-1–BR-7, and Appendix A. Ready is not case closure; the closure rule remains open.</text>
+</g></svg>
