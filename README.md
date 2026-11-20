@@ -2,19 +2,29 @@
 
 A local demonstration that keeps a new hire’s onboarding plan accurate when facts are missing, replies are uncertain, or the start date changes. It coordinates four tasks, asks the right person for missing facts, updates only the work those facts affect, and answers questions from an approved policy pack.
 
-The Week 6 baseline is proposed. Architecture, the user interface, and the application are not built yet.
+The Week 6 baseline is proposed. The SAD, the Sprint 3 page, and the Sprint 3 crew are in the repository.
 
 ## Status
 
-| Item | State |
-| --- | --- |
-| Mode | Greenfield (`aamad.config.yml`) |
-| Runtime target | CrewAI. The application pattern, agent count, and work ownership are not chosen. |
-| Define | System description, market research, PRD, and user stories US-001 through US-007 |
-| Architecture | Not started. No SAD. |
-| Build and delivery | Not started. No application, tests, or runbook. |
+| Item               | State                                                                              |
+| ------------------ | ---------------------------------------------------------------------------------- |
+| Mode               | Greenfield (`aamad.config.yml`)                                                    |
+| Runtime target     | CrewAI. The SAD pattern is a workflow. The Sprint 3 crew is two sequential agents. |
+| Define             | System description, market research, PRD, and user stories US-001 through US-007   |
+| Architecture       | Architecture: SAD completed. Sprint 3 backend architecture documented.             |
+| Build and delivery | Sprint 3 page and crew are in the repository. No test suite or runbook.            |
 
 The PRD is a proposed release contract, not a record that the product is approved or implemented. An earlier payroll concept is kept under `project-context/1.define/reference/payroll/` and is not this product.
+
+## Sprint 3 crew
+
+From the repository root, with `OPENAI_API_KEY` and `OPENAI_MODEL_NAME` set in the environment:
+
+```
+python -m onboarding.kickoff
+```
+
+This command runs the prepared-example crew. It does not open the page. CrewAI 1.15.44 installs on Python 3.10 through 3.13. The repository virtualenv `.venv` is that interpreter. Activate it before the command when the default `python` is 3.14.
 
 ## Who it is for
 
@@ -65,7 +75,7 @@ Seeded hires are Jordan Lee (H-001), whose role is missing at intake, and Riley 
 
 The stories are: create a supported plan, resolve a missing role, resolve equipment uncertainty, replan after a start-date change, answer policy questions, review readiness and decisions, and preserve case integrity. Week 6 is done when an independent reviewer can run scenarios D1–D12 from the PRD and reproduce the scored outcomes.
 
-This repository uses the AAMAD crew. Persona definitions and the phase checklist are in `AGENTS.md` and `CHECKLIST.md`. The next step is `@system.arch`, which records work ownership, the application pattern, the reference architecture, the model and context strategy, and the control register before any build.
+This repository uses the AAMAD crew. Persona definitions and the phase checklist are in `AGENTS.md` and `CHECKLIST.md`. The Solution Architecture Document (SAD) defines the workflow architecture, agent responsibilities, and control requirements. The Sprint 3 frontend and backend establish the initial demonstration. The next step is to validate the crew implementation and progressively integrate the backend with the frontend.
 
 ## Sources
 
@@ -94,3 +104,8 @@ This repository uses the AAMAD crew. Persona definitions and the phase checklist
 - **Persona ID:** product-mgr
 - **Action:** Replace the scaffold framework README with the current product state from the Define artifacts.
 - **Resolved runtime:** `crewai`, from `aamad.config.yml` `runtime.target`. `AAMAD_TARGET_RUNTIME` was not rechecked.
+- **Timestamp:** 2026-11-21T00:05:00Z
+- **Persona ID:** backend-eng
+- **Action:** sync-docs
+- **Resolved runtime:** `crewai`, from `aamad.config.yml` `runtime.target`. `AAMAD_TARGET_RUNTIME` was unset.
+- **Outcome:** Applied the three approved README sentences for the Sprint 3 crew. The SAD was not edited.
