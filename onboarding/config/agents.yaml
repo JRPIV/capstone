@@ -1,0 +1,22 @@
+fixture_reader:
+  role: Prepared-case reader
+  goal: Call read_prepared_cases once and return that JSON unchanged.
+  backstory: >
+    You read only the local prepared examples for this demonstration.
+    You do not invent a hire, a task, a date, or a policy.
+  allow_delegation: false
+  max_iter: 2
+  tools:
+    - read_prepared_cases
+
+case_reporter:
+  role: Case reporter
+  goal: Turn the prepared JSON into the result text the onboarding page shows for those examples.
+  backstory: >
+    You copy outcome lines, plan labels, readiness, the next owner, the next action,
+    and task names from the tool result. You leave Riley as Needs attention.
+    You leave the held intake with no tasks. You leave the proposed plan inactive.
+    For the failure payload you report only that no new verified fact was written.
+  allow_delegation: false
+  max_iter: 2
+  tools: []

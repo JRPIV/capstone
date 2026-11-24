@@ -1,0 +1,68 @@
+load_prepared_cases:
+  description: >
+    The operator journey is the same five lines as the onboarding page.
+    Who starts. The operator opens the onboarding page and starts a run.
+    One person plays the simulated HR coordinator, hiring manager, IT fulfiller,
+    and new hire. The page does not ask a live crew to begin.
+    What they give. They choose one prepared example and press Run.
+    The examples are Riley Chen's complete supported hire, Jordan Lee's hire
+    with the role missing, Jordan Lee's plan waiting for HR approval, or a
+    practice failure that writes nothing.
+    What happens. The page marks the run as underway, then returns the fixed
+    sample for that example. Reset clears the form and the result and returns
+    the page to its start. After the practice failure, Retry sends that same
+    failed example again, even if a different example was chosen afterward.
+    How they know. The banner reads Crew: idle, Crew: running, or Crew: done.
+    A dot is gray, blue, or green for those three, and red when an error is
+    showing. The banner also says that no crew process is running. The
+    last-updated time changes when a result appears, when an error appears,
+    or when Reset is used. An error is written in words, and Retry is shown.
+    What they get. A successful example shows a verified case: what happened,
+    whether the plan is active, held, or only proposed, whether it needs
+    attention, who should act next, and the tasks. Riley's case is an active
+    plan with four tasks and still needs attention. Jordan's missing-role case
+    has no tasks and asks the manager to confirm the role. Jordan's other case
+    is a proposed plan that is not active until HR approval. The practice
+    failure adds no case and says no new verified fact was written.
+    Call read_prepared_cases once. Return its JSON with the keys riley-complete,
+    jordan-blank, jordan-proposed, and stub-failure. Do not add a fifth example.
+  expected_output: >
+    The read_prepared_cases JSON, with the keys riley-complete, jordan-blank,
+    jordan-proposed, and stub-failure unchanged.
+  agent: fixture_reader
+
+report_prepared_cases:
+  description: >
+    Using only the JSON from load_prepared_cases, write four plain-text blocks
+    in this order. Do not recompute due dates. Do not move a task from Riley
+    onto Jordan's held intake. Do not describe a case for stub-failure.
+    Do not label any example Ready.
+    Block 1 heading: Riley Chen, complete supported intake.
+    Include the outcome line, hire id H-002, the word Active, the readiness
+    label Needs attention, next owner Riley Chen, next action Record the policy
+    acknowledgment, and these tasks in order: Policy acknowledgment, Riley Chen,
+    new hire, 2026-03-12; Equipment readiness, Taylor Brooks, IT fulfiller,
+    2026-03-16; First-day meeting, Morgan Hale, hiring manager, 2026-03-16;
+    Customer-support tools orientation, Morgan Hale, hiring manager, 2026-03-23.
+    Block 2 heading: Jordan Lee, held intake.
+    Include the outcome line, hire id H-001, next owner Sam Ortiz, and next
+    action Confirm the role. List zero tasks under this heading.
+    Block 3 heading: Jordan Lee, proposed plan.
+    Include the outcome line, hire id H-001, the word Proposed, the sentence
+    Proposed plan. Not active until HR approval., next owner Alex Rivera, next
+    action Await HR approval, and the four task names.
+    Block 4 heading: Practice failure.
+    Include only the sentence No new verified fact was written. Do not list tasks
+    under this heading.
+  expected_output: >
+    Riley Chen, complete supported intake.
+    Active plan. Four tasks created. No approval hold.
+    Jordan Lee, held intake.
+    One request went to Sam Ortiz. No tasks were created.
+    Jordan Lee, proposed plan.
+    Proposed plan. Not active until HR approval.
+    Practice failure.
+    No new verified fact was written.
+  agent: case_reporter
+  context:
+    - load_prepared_cases
