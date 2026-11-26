@@ -2,6 +2,9 @@
 
 import os
 import sys
+from pathlib import Path
+
+from dotenv import load_dotenv
 
 from onboarding.tools.read_prepared_cases import (
     FAILURE_SENTENCE,
@@ -11,14 +14,19 @@ from onboarding.tools.read_prepared_cases import (
 )
 
 
+DEFAULT_MODEL = "gemini/gemini-3.5-flash-lite"
+
+
 def main(argv: list[str] | None = None) -> int:
     args = list(sys.argv[1:] if argv is None else argv)
     if args:
         print(FAILURE_SENTENCE)
         return 1
-    key = os.environ.get("OPENAI_API_KEY", "").strip()
-    model = os.environ.get("OPENAI_MODEL_NAME", "").strip()
-    if not key or not model:
+    load_dotenv(Path(__file__).resolve().parents[1] / ".env", override=False)
+    key = os.environ.get("GEMINI_API_KEY", "").strip()
+    model = os.environ.get("GEMINI_MODEL_NAME", DEFAULT_MODEL).strip()
+    if not key or not model.startswith("gemini/"):
+        print("Configuration error: set GEMINI_API_KEY and a gemini/ model.", file=sys.stderr)
         print(FAILURE_SENTENCE)
         return 1
 
@@ -27,7 +35,9 @@ def main(argv: list[str] | None = None) -> int:
         from onboarding.crew import run_crew
 
         report = run_crew(model)
-    except Exception:
+    except Exception as exc:
+        # Never print provider messages: they can contain credentials or request URLs.
+        print(f"Kickoff failed ({type(exc).__name__}); no verified result.", file=sys.stderr)
         print(FAILURE_SENTENCE)
         return 1
 

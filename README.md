@@ -75,7 +75,7 @@ Seeded hires are Jordan Lee (H-001), whose role is missing at intake, and Riley 
 
 The stories are: create a supported plan, resolve a missing role, resolve equipment uncertainty, replan after a start-date change, answer policy questions, review readiness and decisions, and preserve case integrity. Week 6 is done when an independent reviewer can run scenarios D1–D12 from the PRD and reproduce the scored outcomes.
 
-This repository uses the AAMAD crew. Persona definitions and the phase checklist are in `AGENTS.md` and `CHECKLIST.md`. The Solution Architecture Document (SAD) defines the workflow architecture, agent responsibilities, and control requirements. The Sprint 3 frontend and backend establish the initial demonstration. The next step is to validate the crew implementation and progressively integrate the backend with the frontend.
+This repository uses the AAMAD crew. Persona definitions and the phase checklist are in `AGENTS.md` and `CHECKLIST.md`. The Solution Architecture Document (SAD) defines the workflow architecture, agent responsibilities, and control requirements. The Sprint 3 frontend and backend establish the initial demonstration. The supported intake on the page calls the local intake API. A reply for the displayed hire also calls that API. A policy question for that hire calls the same API and publishes only an exact listed passage, or routes the question without an invented answer. Jordan Lee’s blank intake stays held until Sam Ortiz confirms a supported role and Alex Rivera approves that proposed plan. Alex can also change an active start date, and a reached deadline escalates an unresolved follow-up. The listed policy patterns do not cover arbitrary paraphrases. A task update records a policy acknowledgment, a meeting confirmation, or training status when the sender is the owner of that fact. `.venv/bin/python -m onboarding.reset_demo` deletes only `onboarding/data/onboarding.sqlite` and its sidecar files. It does not read or change `.env`. Restart the server after a reset.
 
 ## Sources
 
@@ -109,3 +109,23 @@ This repository uses the AAMAD crew. Persona definitions and the phase checklist
 - **Action:** sync-docs
 - **Resolved runtime:** `crewai`, from `aamad.config.yml` `runtime.target`. `AAMAD_TARGET_RUNTIME` was unset.
 - **Outcome:** Applied the three approved README sentences for the Sprint 3 crew. The SAD was not edited.
+- **Timestamp:** 2026-11-26T16:28:00Z
+- **Persona ID:** integration-eng
+- **Action:** sync-docs
+- **Resolved runtime:** crewai, from `aamad.config.yml` `runtime.target`. `AAMAD_TARGET_RUNTIME` was unset.
+- **Outcome:** Operator approved the update. The supported intake on the page is described as calling the local intake API. Reply, policy answers, and HR approval remain unconnected. The SAD was not edited.
+- **Timestamp:** 2026-11-26T17:50:00Z
+- **Persona ID:** integration-eng
+- **Action:** sync-docs
+- **Resolved runtime:** crewai, from `aamad.config.yml` `runtime.target` and the adapter-registry default. `AAMAD_TARGET_RUNTIME` was unset.
+- **Outcome:** Operator approved the descriptive update. The page now calls the API for a reply on the displayed hire. Policy answers and HR approval stay unconnected. The SAD was not edited.
+- **Timestamp:** 2026-11-26T21:20:00Z
+- **Persona ID:** backend-eng
+- **Action:** sync-docs
+- **Resolved runtime:** crewai, from `aamad.config.yml` `runtime.target` and the adapter-registry default. `AAMAD_TARGET_RUNTIME` was unset.
+- **Outcome:** Operator approved this change set’s descriptive updates in advance. The page sentence now includes policy questions and says HR approval is not connected. The SAD was not edited.
+- **Timestamp:** 2026-11-26T21:40:00Z
+- **Persona ID:** backend-eng
+- **Action:** sync-docs
+- **Resolved runtime:** crewai. `AAMAD_TARGET_RUNTIME` was unset.
+- **Outcome:** The page sentence now includes held-plan approval, start-date change, and deadline. Arbitrary policy paraphrases and task completion remain open. The PRD was not edited.

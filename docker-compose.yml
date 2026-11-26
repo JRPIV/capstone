@@ -1,0 +1,18 @@
+services:
+  onboarding:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      ONBOARDING_HOST: 0.0.0.0
+      PORT: "8000"
+      ONBOARDING_DB_PATH: /data/onboarding.sqlite
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      GEMINI_MODEL_NAME: ${GEMINI_MODEL_NAME:-gemini/gemini-3.5-flash-lite}
+      DEMO_ACCESS_TOKEN: ${DEMO_ACCESS_TOKEN}
+      DEMO_MODEL_CALLS_PER_HOUR: ${DEMO_MODEL_CALLS_PER_HOUR:-8}
+    volumes:
+      - onboarding-data:/data
+
+volumes:
+  onboarding-data:

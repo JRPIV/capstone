@@ -1,0 +1,30 @@
+# Fly.io configuration. Creating the app, volume, or secrets is a separate step.
+# Do not put GEMINI_API_KEY or DEMO_ACCESS_TOKEN in this file.
+
+app = "capstone-onboarding"
+primary_region = "iad"
+
+[build]
+
+[env]
+  ONBOARDING_HOST = "0.0.0.0"
+  PORT = "8000"
+  ONBOARDING_DB_PATH = "/data/onboarding.sqlite"
+  GEMINI_MODEL_NAME = "gemini/gemini-3.5-flash-lite"
+  DEMO_MODEL_CALLS_PER_HOUR = "8"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[mounts]]
+  source = "onboarding_data"
+  destination = "/data"
+
+[[vm]]
+  memory = "512mb"
+  cpu_kind = "shared"
+  cpus = 1

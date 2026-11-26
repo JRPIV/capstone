@@ -14,7 +14,7 @@ The scenario is the five lines already written in `project-context/2.build/front
 
 Lines 3 and 4 stay on the page. This crew prints line 5 from fixed mock data: Riley’s active plan, Jordan’s held intake, Jordan’s proposed plan, and the practice failure.
 
-**Status:** Sprint 3 build spec approved and implemented. The `onboarding/` package, `.env.example`, `requirements.txt`, and the README kickoff command exist. `workspace/` is unchanged. No live provider call was made.  
+**Status:** Sprint 3 build spec approved and implemented. The `onboarding/` package, `.env.example`, `requirements.txt`, and the README kickoff command exist. Section 5 adds the intake API the operator approved on 2026-11-26. The supported intake page is connected. Section 6 adds the equipment reply API. The page sends a reply for the displayed hire. Section 7 adds the bounded policy-question route. HR approval, start-date change, and deadline use `POST /events` and call no model. The Gemini kickoff command is still the prepared-example crew, not this API.  
 **Product:** Automated Employee Onboarding Workflow  
 **Persona:** backend-eng  
 **Action:** document-backend  
@@ -39,7 +39,9 @@ The operator asked for two agents, two YAML tasks, a sequential crew unless the 
 | B6 | CR-002 and CR-003 are not executed. Process mode is sequential. | Those controls are application gates after a draft. The SAD does not select CrewAI Flow. | Fixed payloads stand in for the gated result. Nothing is written to a case store. |
 | B7 | `max_rpm` stays unset. | The CrewAI adapter asks for a crew-level rate. PRD Open Question 2 has no spend cap. | Same open item as the SAD. This spec does not invent a cap. |
 
-**Aligned with the contracts.** One operator. Synthetic fixtures only. No production HR, IT, identity, or messaging call. No persistent store. No second public model route. The page banner can stay “Stubbed status. No crew process is running.” because this command does not start from the page.
+**Aligned with the contracts.** One operator. Synthetic fixtures only. No production HR, IT, identity, or messaging call. No persistent store in the Sprint 3 crew. No second public model route. The page banner can stay “Stubbed status. No crew process is running.” because this command does not start from the page.
+
+Section 5 supersedes B4 for intake only. The Sprint 3 crew command still does not listen on a port. The case file in section 5 is application storage. CrewAI memory stays off.
 
 ## 2. Simplified build
 
@@ -211,7 +213,7 @@ Not built in this sprint:
 
 - `reply_reader`, `policy_answerer`, and the Python router that selects one of them
 - CR-002, CR-003, and the rest of the case store
-- Submit-event, hire-read, event ids, `conflict`, and `event_mismatch`
+- Submit-event and hire-read for reply, start-date change, policy question, deadline, and HR decision. Intake only is section 5.
 - Wiring `startRun` or `getRunStatus` to this crew
 - Reset and Retry as crew operations
 - D1–D12, P1–P4 retrieval, and a scored model call
@@ -246,6 +248,35 @@ None. The operator approved section 4 on 2026-11-20. The files in section 2.2 ar
 
 Approval of `ux.md` and of the frontend spec is separate. This gate covers the crew in section 2 only. The PRD, the SAD, and `ux.md` are not edited by this spec.
 
+## 5. Intake API increment
+
+The operator approved this slice on 2026-11-26 after integration found no submit-event or hire-read API. It is the smallest backend that can accept one intake and store the case. It does not wrap the prepared-example crew, and it does not call Gemini.
+
+Python selects the path. The only path in this slice is intake. The rule gate writes the case. CrewAI `memory` stays false on the unchanged sample crew. The case file is SQLite owned by the application.
+
+| Method and path | Result |
+|---|---|
+| `POST /events` | Accepts one intake. Returns the same `event_id`, a server-assigned `hire_id`, and `status: processing`. |
+| `GET /hires/<hire_id>` | Returns the stored hire, or a message that no hire is stored for that id. |
+| `GET /health` | Returns `{"status": "ok"}` when the process can read the case file. |
+
+The process listens on `127.0.0.1:8000`. Start it with `python -m onboarding.server`. The case file is `onboarding/data/onboarding.sqlite` and is gitignored.
+
+A client-supplied `hire_id` on intake does not choose the case. Issued ids start at `H-1001`, so they do not reuse seeded `H-001` or `H-002`.
+
+| Intake result | What is stored |
+|---|---|
+| Complete Customer Support Representative record in Austin, including the alias “CSR” | Active plan, four Appendix A tasks, `failure: null`, readiness `needs_attention` |
+| Blank role and office Austin | One message asking the named manager to confirm the role. No tasks. |
+| Any other non-blank role, or an office other than Austin | A hire with no tasks and an HR-review message |
+| Unreadable intake | `unreadable_input`. No hire id is created. |
+
+The same event id and the same recorded contents return the original acknowledgment and add no second plan. Different contents for that id return `event_mismatch`. An id still in flight returns `conflict`. Start-date change, policy question, and deadline are refused before a hire write. That refusal has no error code, because the architecture document has no code for a route this slice does not run. Equipment reply is section 6.
+
+Files added: `onboarding/store.py`, `onboarding/rules.py`, `onboarding/router.py`, `onboarding/server.py`. `.gitignore` ignores `onboarding/data/`. Unchanged: `onboarding/kickoff.py`, `onboarding/crew.py`, both YAML files, `onboarding/tools/read_prepared_cases.py`, and the Gemini settings. `workspace/` now calls the intake API for the supported intake.
+
+Checked against a temporary case file, then once over HTTP on `127.0.0.1:8000`. The Riley request from the approved example returned `H-1001`, not `H-002`. The hire read had the four tasks, policy due `2026-03-12` and overdue, equipment and meeting due `2026-03-16`, training due `2026-03-23`, readiness `needs_attention`, and `failure: null`. A second submit added no tasks. A changed body returned `event_mismatch`. A blank role for Jordan Lee stored no tasks and the message “Ask Sam Ortiz to confirm the role.” An in-flight id returned `conflict`. No provider key was read.
+
 ## Sources
 
 - Operator request, 2026-11-20: same scenario as the stubbed frontend, the five lines pasted above, two agents, two YAML tasks, sequential unless the SAD gates require Flow, one tool, mock data allowed, one README kickoff command, UI left unwired, stop after the spec.
@@ -255,6 +286,7 @@ Approval of `ux.md` and of the frontend spec is separate. This gate covers the c
 - `project-context/1.define/prd.md`. Appendix A owners and dues. Open Question 2 on model and spend.
 - `.cursor/rules/adapter-crewai.mdc`. YAML agents and tasks, sequential process, delegation off, memory off, `max_iter`, `max_retry_limit`.
 - `aamad.config.yml`. `project.mode: greenfield`. `runtime.target: crewai`.
+- Operator approval, 2026-11-26: intake-only server, Python router and rule gate, local SQLite case file, Gemini sample crew left unchanged.
 
 ## Assumptions
 
@@ -267,11 +299,56 @@ Approval of `ux.md` and of the frontend spec is separate. This gate covers the c
 - System Python is 3.14.10. Installed CrewAI 1.15.44 requires Python `>=3.10,<3.14`, so the project virtualenv `.venv` uses Python 3.12.16. `.venv` is gitignored. `requirements.txt` stays unpinned `crewai`.
 - CrewAI 1.15.44 puts `max_retry_limit` on each agent, default 2, and has no crew-level field with that name. Both agents set 2. No second retry loop wraps `kickoff`.
 - Constructing a `Crew` creates CrewAI’s kickoff-output database under the library storage path. This package does not write a case file into the repository.
+- Section 5 follows the SAD’s proposed local SQLite file. The backend persona text says not to add persistent storage. The operator approved the case file. CrewAI memory stays off, and the sample crew does not open that file.
+- SAD section 4 leaves paths and JSON key spelling open. `POST /events`, `GET /hires/<hire_id>`, and `GET /health` are the approved completion of that choice. HTTP status numbers are 202 for the acknowledgment, 200 for a hire read and for health, 400 for `unreadable_input` and `event_mismatch`, 409 for `conflict`, and 404 when the hire id is unknown.
+- A repeated, already saved event returns the original acknowledgment with `status: processing`. The architecture document does not define a second acknowledgment status.
+- The intake body uses `employee_name`, `start_date`, `role`, `office`, and `manager_name`. The hire read returns the office as `location`.
+- Hire ids start at `H-1001`. `H-001` and `H-002` stay the seeded example ids and are not chosen by the client.
+- “CSR”, including inside a sentence, is the supported role. Any other non-blank role is the HR-review label in this slice. A blank role outside Austin uses that same label and does not send the manager request.
+- Equipment is overdue only after its due date. Policy, meeting, and training are overdue at 5 p.m. Austin time on the due date. The IT owner on a new active plan is Taylor Brooks, the seeded IT fulfiller.
+- The server loads the repository-root `.env` at startup and does not replace variables already set. It does not print the key. The sample crew keeps its own configuration.
+
+## 6. Equipment reply increment
+
+The operator authorized this slice on 2026-11-26 from the SAD section 4 equipment reply contract. Python selects `reply_reader` from `onboarding/config/reply_agents.yaml` and `onboarding/config/reply_tasks.yaml`. That crew is separate from the prepared-example crew. It has no tools, delegation off, memory off, and a sequential process. The prepared-example files, the intake rules, and the Gemini variable names are unchanged.
+
+Actor ids use the spelling already sent by the intake page, `actor-alex-rivera`. The same pattern names the other Appendix A people: `actor-taylor-brooks`, `actor-sam-ortiz`, `actor-morgan-hale`, `actor-jordan-lee`, and `actor-riley-chen`. A reply is accepted only when both `actor_id` and `actor_role` match one of those pairs. Equipment evidence changes only for `actor-taylor-brooks` with role `it_fulfiller`.
+
+`POST /events` for a reply that passes those checks returns `202` with `status: processing` before the model returns. `GET /hires/<hire_id>` lists `events`. The client finds its `event_id` and reads `processing`, `complete`, or `failed`. The task list on that document is the current case. A completed reply does not mean that event created the intake tasks.
+
+Retry configuration for this route: the application calls the reader once per accepted attempt, the LLM `max_retries` is 0, and the agent `max_retry_limit` is 0. `max_iter` stays 2 as the SAD ceiling. The adapter’s floor of 2 is not used here, because that setting would add provider retries the equipment contract does not allow. Decision 7 stays open for the prepared-example crew, which still sets `max_retry_limit` 2 and was not changed.
+
+Mocked tests in `onboarding/tests/test_equipment_reply.py` passed, 17 tests, with a stand-in reader. They covered first uncertainty, false certainty, a second uncertainty, contextual denial, “No loaner” without a missed laptop, a valid confirmation with `uncertainty: true`, an estimate that leaves a commitment in place, revocation, an unauthorized sender, a duplicate event, `event_mismatch`, deadline boundaries, an invalid draft, provider failure, event completion, the single-event conflict, intake’s four tasks, and the blank-role intake.
+
+One live call used fictional Riley data and the sentence “The laptop slips to March 19. A spare might be free on start day.” The local `.env` has `GEMINI_API_KEY` and no `GEMINI_MODEL_NAME`, so the call used the kickoff default `gemini/gemini-3.5-flash-lite`, temperature 0. The acknowledgment was `processing`. The hire read then showed that event `complete`, equipment unconfirmed, plan version 1, four tasks, one follow-up, and rule result `follow_up`. `application_calls` was 1. A patch on `crewai.LLM.call` counted 0 because this installed CrewAI build does not send the request through that method. The process printed one token-count notice for `gemini-3.5-flash-lite`. No key was written into this file. This live result is separate from the mocked tests.
+
+Repeat the mocked tests with `.venv/bin/python -m unittest onboarding.tests.test_equipment_reply`. Repeat the live reply only with a local key: start `python -m onboarding.server`, submit Riley’s intake, then submit one reply as `actor-taylor-brooks` / `it_fulfiller` for that hire id, and read `events` on the hire. Do not print the key.
+
+The page sends a reply for the displayed hire. The hire read includes `events` for intake, reply, and policy question. Policy questions are section 7.
+
+## 7. Policy question increment
+
+The operator authorized this slice on 2026-11-26 from the SAD section 4 question detector and publication contract. Python classifies the question with `onboarding/policy_pack.py`. That table is the only matcher. It does not answer arbitrary paraphrases, and it does not close Open Questions, “Policy paraphrase scope,” in the SAD. Retrieval terms only choose candidate passages. `policy_answerer` is a separate tool-free sequential task in `onboarding/config/policy_agents.yaml` and `onboarding/config/policy_tasks.yaml`. Delegation and agent memory stay off. The Gemini settings match the reply reader: temperature 0, timeout 45, `max_retries` 0, `max_retry_limit` 0, `max_iter` 2, and one application call. The prepared-example crew was not changed.
+
+A published answer is the exact P1–P4 passage. A mixed out-of-pack question is stored as a completed policy event with reason “outside the pack” and no passage. That record is not `approve_held_plan` or `escalation_disposition`. `covered: false`, an irrelevant citation, partial coverage, an ambiguous question, and an equipment-changing instruction are manual review. Invalid grounding, a citation outside the retrieved set, and an empty excerpt are `model_failure`. A proposal that says a device is reserved for this hire, that equipment readiness is confirmed, or that a task is complete is manual review and publishes nothing. Partial coverage still calls the model when a candidate exists, then publishes nothing. None of these outcomes change equipment evidence, task completion, readiness, or `plan_version`.
+
+HR approval, start-date change, and deadline follow the resolved event schemas in the SAD. A blank role stays held. The designated manager’s supported reply creates a proposed plan. Alex Rivera’s `approve_held_plan` activates it and increments the plan version. A start-date change recalculates unfinished dates, reconfirms an unheld meeting, and blocks a commitment that misses the new start. A reached follow-up deadline escalates that subject once. No page or API marks a task complete.
+
+Mocked tests in `onboarding/tests/test_policy_question.py` passed, 14 tests, with a stand-in answerer. They covered the recorded detector examples, an exact P2 answer, a mixed remote-work referral, `covered: false`, an irrelevant citation, partial coverage, an equipment instruction, invalid grounding, prompt injection, a duplicate event, changed contents under the same event id, provider failure, and unchanged case facts. The same run rechecked a reply after a policy question. `onboarding/tests/test_equipment_reply.py` passed, 19 tests.
+
+One live call used fictional Riley data, hire `H-1008`, event `live-policy-q-1`, and the question “Can IT provide an approved loaner by the start date?” The server used the repository `.env` and the default `gemini/gemini-3.5-flash-lite`. The event finished `complete`, rule `published`, route `policy_answerer`, with the exact P2 passage, plan version 1, four tasks, and readiness `needs_attention`. The process printed one token-count notice for `gemini-3.5-flash-lite`. No key was written into this file. This live result is separate from the mocked tests. A browser submission of “Can I work remotely?” on the same hire showed “Outside the pack. Routed to HR. No policy answer was published.” and left the four tasks in place.
+
+Repeat the mocked tests with `.venv/bin/python -m unittest onboarding.tests.test_policy_question onboarding.tests.test_equipment_reply`. Repeat the live question from the repository root with `.venv/bin/python -m onboarding.server`, then submit Riley’s intake and one policy question as `actor-riley-chen` / `new_hire`. Read the hire and compare a `policy_answer` body with Appendix A P2. Do not print the key.
 
 ## Open Questions
 
 1. Which provider model should `OPENAI_MODEL_NAME` use, and what spend cap sets `max_rpm`? PRD Open Question 2. This spec does not choose either.
 2. `project-context/2.build/setup.md` is still absent. This sprint does not ask `@project.mgr` to write it before the crew files.
+3. Who may submit an intake, and how the server binds the role selector, are still open. This slice checks that `actor_role` is one of the four simulator roles. It does not compare that role with a saved selector.
+4. Policy question is section 7. Start-date change and deadline are implemented. A disallowed sender or state returns `unsupported` before the event is reserved.
+5. An unknown hire read has no architecture error code. The response is HTTP 404 and a message.
+6. The README kickoff section still names `OPENAI_API_KEY` and `OPENAI_MODEL_NAME`. `onboarding/kickoff.py` and `.env.example` use `GEMINI_API_KEY` and `GEMINI_MODEL_NAME`. Section 5 did not change that command.
+7. An HR decision is `event_type` `hr_decision` on `POST /events`. A policy referral is not that call. The bounded detector does not close the SAD paraphrase-scope question. A task update records policy acknowledgment, meeting confirmation, and training status for the authorized sender.
 
 ## Audit
 
@@ -300,3 +377,81 @@ Approval of `ux.md` and of the frontend spec is separate. This gate covers the c
 - **Resolved runtime:** `crewai`, from `aamad.config.yml` `runtime.target` and the adapter-registry default. `AAMAD_TARGET_RUNTIME` was unset.
 - **Prompt trace:** Omitted. This entry records approved README sentence replacements. It does not call the product model.
 - **Outcome:** Operator approved all descriptive updates. Three README sentences now name the Sprint 3 crew. Spec drift in the SAD was left unchanged: the sprint crew has one read-only mock tool and chains `fixture_reader` then `case_reporter`, while the SAD still names `reply_reader` and `policy_answerer` with no tools and alternative routes. That difference is the approved B1–B3 exception. `@system.arch` owns any SAD revision.
+
+- **Timestamp:** 2026-11-26T15:58:59Z
+- **Persona ID:** backend-eng
+- **Action:** implement-endpoint
+- **Resolved runtime:** `crewai`, from `aamad.config.yml` `runtime.target` and the adapter-registry default. `AAMAD_TARGET_RUNTIME` was unset. Warning: the environment variable was not set.
+- **Model / temperature / max_tokens:** Grok 4.7 via Cursor for this implementation turn. Temperature and max_tokens were not set. No product model was called. The intake server does not read the Gemini settings.
+- **Prompt trace:** Omitted. This entry records the approved intake slice. It does not call the product model and it does not embed secrets.
+- **Tool use:** Added `onboarding/store.py`, `onboarding/rules.py`, `onboarding/router.py`, and `onboarding/server.py`, and ignored `onboarding/data/`. Ran the Riley intake, a repeated event, `event_mismatch`, a blank-role intake, an in-flight `conflict`, and `GET /health` plus `POST /events` on `127.0.0.1:8000`. Did not read `.env`. Did not edit the sample crew, the YAML files, or `workspace/`.
+- **Outcome:** Intake submit and hire read are available. The page stays on its stub. PRD, SAD, and `ux.md` were not edited.
+- **Doc sync:** no updates. No allowlisted descriptive sentence was made false. The page is still unwired. The README kickoff section’s OpenAI names were already stale and were not changed. 2026-11-26T15:58:59Z, backend-eng, sync-docs.
+
+- **Timestamp:** 2026-11-26T16:28:00Z
+- **Persona ID:** integration-eng
+- **Action:** sync-docs
+- **Resolved runtime:** crewai, from `aamad.config.yml` `runtime.target` and the adapter-registry default. `AAMAD_TARGET_RUNTIME` was unset.
+- **Prompt trace:** Omitted. This entry records approved descriptive sentence replacements. It does not call the product model.
+- **Outcome:** Operator approved the updates. The intake section now says the supported intake page is connected, and `workspace/` calls that API. The Gemini crew files stay unchanged. PRD and SAD were not edited.
+
+- **Timestamp:** 2026-11-26T17:20:00Z
+- **Persona ID:** backend-eng
+- **Action:** implement-endpoint
+- **Resolved runtime:** `crewai`, from `aamad.config.yml` `runtime.target` and the adapter-registry default. `AAMAD_TARGET_RUNTIME` was unset. Warning: the environment variable was not set.
+- **Model / temperature / max_tokens:** Grok 4.7 via Cursor for this implementation turn. Temperature and max_tokens were not set. The reply reader uses temperature 0, timeout 45 seconds, `max_retries` 0, and `max_iter` 2. The live call used `gemini/gemini-3.5-flash-lite` because `GEMINI_MODEL_NAME` is unset. The key was not printed.
+- **Prompt trace:** Omitted. The mocked tests do not call the provider. The one live call’s raw provider payload is not stored here.
+- **Tool use:** Added the reply roster, ledger, reply crew, and `onboarding/tests/test_equipment_reply.py`. Extended the router and the case store. Ran the 17 mocked tests. Ran one live reply. Did not edit the prepared-example crew, `workspace/`, the PRD, or the SAD.
+- **Outcome:** Equipment reply is available on the existing event API. The page does not send replies. `policy_answerer` is not built.
+- **Doc sync:** no updates. The page, README, and integration note still say the page does not send replies, and the prepared-example crew is still not the API. 2026-11-26T17:20:00Z, backend-eng, sync-docs.
+
+- **Timestamp:** 2026-11-26T17:50:00Z
+- **Persona ID:** integration-eng
+- **Action:** sync-docs
+- **Resolved runtime:** crewai, from `aamad.config.yml` `runtime.target` and the adapter-registry default. `AAMAD_TARGET_RUNTIME` was unset.
+- **Prompt trace:** Omitted. This entry records approved descriptive sentence replacements. It does not call the product model.
+- **Outcome:** Operator approved the updates. The status and section 6 now say the page sends a reply for the displayed hire. The prepared-example crew stays separate. PRD, SAD, and `ux.md` were not edited.
+
+- **Timestamp:** 2026-11-26T20:25:00Z
+- **Persona ID:** backend-eng
+- **Action:** implement-endpoint
+- **Resolved runtime:** `crewai`, from `aamad.config.yml` `runtime.target` and the adapter-registry default. `AAMAD_TARGET_RUNTIME` was unset. Warning: the environment variable was not set.
+- **Model / temperature / max_tokens:** Grok 4.7 via Cursor. Temperature and max_tokens were not set. No product model was called. The key was not printed.
+- **Prompt trace:** Omitted. The missing-key test does not call the provider.
+- **Tool use:** Added `load_runtime_env` to `onboarding/server.py`, matching `kickoff.py` with `override=False`. Ran 19 equipment-reply tests. Intake without `GEMINI_API_KEY` stored four tasks. A reply with the key absent finished as `model_failure` on that event, with the message kept unverified and the plan unchanged. A preset variable was left in place. A process with the variable unset loaded `.env` and the key was present. `.env` was not edited.
+- **Outcome:** The server loads the repository-root `.env` at startup and does not replace variables already set.
+
+- **Timestamp:** 2026-11-26T20:25:00Z
+- **Persona ID:** backend-eng
+- **Action:** sync-docs
+- **Resolved runtime:** crewai, from `aamad.config.yml` `runtime.target` and the adapter-registry default. `AAMAD_TARGET_RUNTIME` was unset.
+- **Prompt trace:** Omitted. This entry records the approved assumption sentence.
+- **Outcome:** Operator approved the update. The assumption now says the server loads `.env` without replacing variables already set. PRD, SAD, and `ux.md` were not edited.
+
+- **Timestamp:** 2026-11-26T21:20:00Z
+- **Persona ID:** backend-eng
+- **Action:** implement-endpoint
+- **Resolved runtime:** `crewai`, from `aamad.config.yml` `runtime.target` and the adapter-registry default. `AAMAD_TARGET_RUNTIME` was unset. Warning: the environment variable was not set.
+- **Model / temperature / max_tokens:** Grok 4.7 via Cursor for this turn. The policy crew uses temperature 0, timeout 45, and `max_retries` 0. The key was not printed.
+- **Prompt trace:** Omitted. The mocked tests do not call the provider. The live call’s prompt is the policy task YAML with the question and P2 passage. It is not copied here.
+- **Tool use:** Added the detector, publication gate, `policy_answerer` YAML, and the `policy_question` route. Ran 14 policy tests and 19 equipment tests. One live supported question on hire `H-1008` published the exact P2 passage. `.env` was not edited.
+- **Outcome:** Policy questions follow the bounded detector. HR approval, start-date change, and deadline stay unimplemented. The paraphrase-scope question stays open.
+
+- **Timestamp:** 2026-11-26T21:20:00Z
+- **Persona ID:** backend-eng
+- **Action:** sync-docs
+- **Resolved runtime:** crewai, from `aamad.config.yml` `runtime.target` and the adapter-registry default. `AAMAD_TARGET_RUNTIME` was unset.
+- **Prompt trace:** Omitted. The operator approved descriptive updates for this change set before implementation.
+- **Outcome:** Status, section 7, and open questions 4 and 7 now describe the policy route. PRD, SAD, and `ux.md` were not edited.
+- **Timestamp:** 2026-11-26T21:40:00Z
+- **Persona ID:** backend-eng
+- **Action:** develop-be
+- **Resolved runtime:** crewai. `AAMAD_TARGET_RUNTIME` was unset.
+- **Outcome:** HR decision, start-date change, and deadline follow the SAD schemas. Mocked tests in `onboarding/tests/test_plan.py` passed with the existing policy and equipment suites, 37 tests. No model call in those tests. PRD and `ux.md` were not edited.
+
+- **Timestamp:** 2026-11-26T22:05:00Z
+- **Persona ID:** backend-eng
+- **Action:** develop-be
+- **Resolved runtime:** crewai. `AAMAD_TARGET_RUNTIME` was unset.
+- **Prompt trace:** Omitted. The live draft was checked for excerpt membership only. The key was not printed.
+- **Outcome:** The reply task now places the message after the instructions and substitutes the message last. An excerpt must still be a contiguous substring. A recorded failed event is read again; a committed event is not. Mocked suite: 52 tests OK, no provider call. Stored hire H-1006 remains failed.

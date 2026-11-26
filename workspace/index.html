@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Onboarding case</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <p class="brand">
+        <span class="mark" aria-hidden="true">
+          <svg viewBox="0 0 16 16" width="16" height="16"><path d="M2 4h5v5H2zM9 2h5v5H9zM2 9h5v5H2zM9 9h5v5H9z" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+        </span>
+        Onboarding
+        <span class="brand-sep">/</span>
+        <span class="brand-quiet">Case workspace</span>
+      </p>
+    </header>
+    <main>
+      <p class="context-line">
+        <span>Fictional case</span>
+        <span id="scenario-clock">Scenario clock: not set · Austin time</span>
+      </p>
+      <a class="jump" href="#composer">Take action</a>
+      <section class="identity" aria-labelledby="hire-heading">
+        <div class="person">
+          <div class="avatar" id="avatar" aria-hidden="true">—</div>
+          <div>
+            <h1 id="hire-heading">No case loaded</h1>
+            <p id="hire-subtitle" class="muted">Start an intake to create a fictional case.</p>
+          </div>
+          <p id="readiness-badge" class="badge" hidden></p>
+        </div>
+        <dl class="meta" id="hire-meta"></dl>
+      </section>
+      <div class="workspace">
+        <section class="panel" aria-labelledby="case-heading">
+          <div class="panel-head">
+            <h2 id="case-heading">Case</h2>
+            <p id="status-line" class="status" aria-live="polite">Ready to submit</p>
+          </div>
+          <div id="attention" class="attention" hidden></div>
+          <div id="completion" class="completion" hidden></div>
+          <div class="tabs" role="tablist" aria-label="Case sections">
+            <button id="tab-tasks" type="button" role="tab" aria-selected="true" aria-controls="panel-tasks">Tasks</button>
+            <button id="tab-activity" type="button" role="tab" aria-selected="false" aria-controls="panel-activity" tabindex="-1">Activity</button>
+            <button id="tab-policy" type="button" role="tab" aria-selected="false" aria-controls="panel-policy" tabindex="-1">Policy</button>
+            <button id="tab-decisions" type="button" role="tab" aria-selected="false" aria-controls="panel-decisions" tabindex="-1">Decisions</button>
+          </div>
+          <div id="panel-tasks" role="tabpanel" aria-labelledby="tab-tasks"></div>
+          <div id="panel-activity" role="tabpanel" aria-labelledby="tab-activity" hidden></div>
+          <div id="panel-policy" role="tabpanel" aria-labelledby="tab-policy" hidden></div>
+          <div id="panel-decisions" role="tabpanel" aria-labelledby="tab-decisions" hidden></div>
+          <div id="results" hidden></div>
+        </section>
+        <section class="panel" id="composer" aria-labelledby="action-heading">
+          <div class="panel-head">
+            <h2 id="action-heading">Take action</h2>
+            <p class="badge">Simulator</p>
+          </div>
+          <form id="action-form">
+            <p class="note">Fictional local simulator. This is not real authentication. The server checks who may change each fact.</p>
+            <div id="demo-lock" hidden>
+              <label for="demo-token">Demo access
+                <input id="demo-token" type="password" autocomplete="off" />
+              </label>
+              <p class="hint">Required on the shared demonstration. The token is not stored in this repository.</p>
+            </div>
+            <p id="inline-error" class="error" role="alert" hidden></p>
+            <label for="event-type">Action
+              <select id="event-type">
+                <option value="intake">Start a new intake</option>
+                <option value="reply">Send a reply</option>
+                <option value="policy_question">Ask a policy question</option>
+                <option value="start_date_change">Change start date</option>
+                <option value="deadline_reached">Check deadlines</option>
+                <option value="hr_decision">Record HR decision</option>
+                <option value="task_update">Record task status</option>
+              </select>
+            </label>
+            <label for="sender">Acting as
+              <select id="sender">
+                <option value="actor-alex-rivera" selected>Alex Rivera · HR coordinator</option>
+                <option value="actor-taylor-brooks">Taylor Brooks · IT fulfiller</option>
+                <option value="actor-sam-ortiz">Sam Ortiz · Hiring manager</option>
+                <option value="actor-morgan-hale">Morgan Hale · Hiring manager</option>
+                <option value="actor-jordan-lee">Jordan Lee · New hire</option>
+                <option value="actor-riley-chen">Riley Chen · New hire</option>
+              </select>
+            </label>
+            <p class="hint">The message does not change who is sending this.</p>
+            <div id="intake-fields">
+              <label for="scenario">Scenario
+                <select id="scenario">
+                  <option value="">Choose a scenario</option>
+                  <option value="riley-complete">Riley Chen, complete supported intake</option>
+                  <option value="jordan-blank">Jordan Lee, held intake</option>
+                  <option value="jordan-proposed" disabled>Jordan Lee, proposed plan (unavailable)</option>
+                  <option value="stub-failure" disabled>Stub failure (unavailable)</option>
+                </select>
+              </label>
+              <p id="scenario-error" class="error" hidden>Choose a scenario.</p>
+              <p id="scenario-facts" class="note" hidden></p>
+            </div>
+            <div id="reply-fields" hidden>
+              <label for="hire-id">Hire id
+                <input id="hire-id" type="text" autocomplete="off" />
+              </label>
+            </div>
+            <div id="task-fields" hidden>
+              <label for="task-name">Task
+                <select id="task-name">
+                  <option value="policy_acknowledgment">Policy acknowledgment</option>
+                  <option value="first_day_meeting">First-day meeting</option>
+                  <option value="training">Training</option>
+                </select>
+              </label>
+              <label for="task-action">Status
+                <select id="task-action">
+                  <option value="acknowledge">Acknowledged</option>
+                  <option value="confirm">Confirmed for the current start</option>
+                  <option value="held">Meeting held</option>
+                  <option value="assigned">Assigned</option>
+                  <option value="complete">Complete</option>
+                </select>
+              </label>
+            </div>
+            <div id="hr-fields" hidden>
+              <label for="decision-type">Decision
+                <select id="decision-type">
+                  <option value="approve_held_plan">Approve held plan</option>
+                  <option value="escalation_disposition">Escalation disposition</option>
+                </select>
+              </label>
+              <label for="plan-version">Plan version
+                <input id="plan-version" type="number" value="1" />
+              </label>
+              <p class="hint">Approval does not confirm missing evidence.</p>
+            </div>
+            <label for="start-date" id="start-date-label" hidden>New start date
+              <input id="start-date" type="date" />
+            </label>
+            <label for="reply-body" id="reply-body-label"><span id="reply-body-name">Message</span>
+              <textarea id="reply-body" rows="5"></textarea>
+            </label>
+            <div id="reply-guide" class="guide" hidden>
+              <p>These are tested examples, not an exhaustive list of accepted wording. Choosing one fills the message and does not send it. The event id, sender, hire id, and time stay as they are.</p>
+              <div class="example">
+                <p class="hint">Role clarification. Sender: Morgan Hale, hiring manager. Prior case: Avery Nguyen, held intake, blank role, start 2026-04-06. No model is called.</p>
+                <button type="button">The Austin hire is a CSR.</button>
+              </div>
+              <div class="example">
+                <p class="hint">Equipment uncertainty. Sender: Taylor Brooks, IT fulfiller. Prior case: Riley Chen, active, Customer Support Representative, start 2026-03-16.</p>
+                <button type="button">The laptop slips to March 19. A spare might be free on start day.</button>
+              </div>
+              <div class="example">
+                <p class="hint">Equipment commitment. Sender: Taylor Brooks, IT fulfiller. Prior case: Riley Chen, active, Customer Support Representative, start 2026-03-16.</p>
+                <button type="button">A loaner will be ready on March 16.</button>
+              </div>
+              <div class="example">
+                <p class="hint">Equipment denial. Sender: Taylor Brooks, IT fulfiller. Prior case: Riley Chen, active, start 2026-03-16, with no earlier missed laptop. The same sentence after the March 19 estimate is a separate tested case.</p>
+                <button type="button">No loaner.</button>
+              </div>
+              <details>
+                <summary>More examples</summary>
+                <div class="example">
+                  <p class="hint">Role clarification. Sender: Sam Ortiz, hiring manager. Prior case: Jordan Lee, held intake, blank role, start 2026-03-02. No model is called.</p>
+                  <button type="button">We hired a CSR</button>
+                </div>
+                <div class="example">
+                  <p class="hint">Role clarification. Sender: Sam Ortiz, hiring manager. Prior case: Jordan Lee, held intake, blank role. No model is called.</p>
+                  <button type="button">Not sure yet.</button>
+                </div>
+                <div class="example">
+                  <p class="hint">Role clarification. Sender: Sam Ortiz, hiring manager. Prior case: the same held Jordan Lee case after “Not sure yet.” No model is called.</p>
+                  <button type="button">Still not sure.</button>
+                </div>
+                <div class="example">
+                  <p class="hint">Equipment uncertainty. Sender: Taylor Brooks, IT fulfiller. Prior case: Riley Chen after “The laptop slips to March 19. A spare might be free on start day.”</p>
+                  <button type="button">A spare might still be free next week.</button>
+                </div>
+                <div class="example">
+                  <p class="hint">Equipment uncertainty. Sender: Taylor Brooks, IT fulfiller. Prior case: Jordan Lee, active, start 2026-03-02.</p>
+                  <button type="button">The assigned laptop won’t arrive until Thursday, but a loaner may be available Monday.</button>
+                </div>
+                <div class="example">
+                  <p class="hint">Equipment uncertainty. Sender: Taylor Brooks, IT fulfiller. Prior case: Riley Chen, active, start 2026-03-16, before a later start-date change.</p>
+                  <button type="button">The laptop slips to March 19.</button>
+                </div>
+                <div class="example">
+                  <p class="hint">Equipment commitment. Sender: Taylor Brooks, IT fulfiller. Prior case: Jordan Lee, active, start 2026-03-02.</p>
+                  <button type="button">Yes. A loaner will be ready on Monday, March 2.</button>
+                </div>
+                <div class="example">
+                  <p class="hint">Equipment denial. Sender: Taylor Brooks, IT fulfiller. Prior case: Jordan Lee, active, after a loaner commitment for 2026-03-02.</p>
+                  <button type="button">The loaner commitment is revoked.</button>
+                </div>
+              </details>
+            </div>
+            <div id="policy-note" class="guide" hidden>
+              <p>Recorded examples from the detector, grouped by policy. Choosing one fills the question and does not send it. Other wording may go to manual review. Out-of-pack topics go to HR. The event id, sender, hire id, and time stay as they are.</p>
+              <div class="example">
+                <p class="hint">P1, written policies. P1-due.</p>
+                <button type="button">How many business days before the start date must the new hire acknowledge the written policies?</button>
+              </div>
+              <div class="example">
+                <p class="hint">P2, equipment. P2-provide. A published passage does not confirm equipment.</p>
+                <button type="button">Can IT provide an approved loaner by the start date?</button>
+              </div>
+              <div class="example">
+                <p class="hint">P3, first-day meeting. P3-meeting.</p>
+                <button type="button">Must the manager confirm a first-day meeting for the current start date?</button>
+              </div>
+              <div class="example">
+                <p class="hint">P4, orientation. P4-due.</p>
+                <button type="button">When is customer-support tools orientation due?</button>
+              </div>
+              <details>
+                <summary>More examples</summary>
+                <div class="example">
+                  <p class="hint">P1, written policies. P1-late.</p>
+                  <button type="button">Does a late acknowledgment remain valid after a start-date change?</button>
+                </div>
+                <div class="example">
+                  <p class="hint">P1, written policies. P1-late. The detector deletes “not”, so this is the same obligation.</p>
+                  <button type="button">Does a late acknowledgment not remain valid after a start-date change?</button>
+                </div>
+                <div class="example">
+                  <p class="hint">P2, equipment. P2-confirm.</p>
+                  <button type="button">Does a possibility or a delivery estimate confirm equipment?</button>
+                </div>
+                <div class="example">
+                  <p class="hint">P2, equipment. P2-continue.</p>
+                  <button type="button">Do other tasks continue while equipment is unresolved?</button>
+                </div>
+                <div class="example">
+                  <p class="hint">P3, first-day meeting. P3-reconfirm.</p>
+                  <button type="button">Does a changed start date require the meeting to be confirmed again?</button>
+                </div>
+                <div class="example">
+                  <p class="hint">P4, orientation. P4-owner.</p>
+                  <button type="button">Who owns orientation scheduling?</button>
+                </div>
+                <div class="example">
+                  <p class="hint">P4, orientation. P4-not-prereq.</p>
+                  <button type="button">Is equipment a prerequisite for assigning or scheduling training?</button>
+                </div>
+              </details>
+            </div>
+            <p id="reply-error" class="error" hidden>Enter the missing fields.</p>
+            <p id="id-warning" class="attention-inline" hidden>This event id was already submitted. Editing it can be refused as a mismatch. Use New event for a different submission.</p>
+            <details>
+              <summary>Event details</summary>
+              <div class="details">
+                <label for="reply-event-id">Event id
+                  <span class="copy-row">
+                    <input id="reply-event-id" type="text" autocomplete="off" />
+                    <button id="copy-event" type="button">Copy</button>
+                  </span>
+                </label>
+                <label for="occurred-at">Occurred at
+                  <input id="occurred-at" type="text" value="2026-03-13T15:00:00-05:00" autocomplete="off" />
+                </label>
+                <p class="hint">Austin scenario time. It is not the clock on this computer. Retry keeps this event id. A recorded failure is read again. A completed event adds no work.</p>
+              </div>
+            </details>
+            <div class="actions">
+              <button id="run" type="submit">Create intake</button>
+              <button id="retry" type="button" hidden>Retry original event</button>
+              <button id="new-event" type="button">New event</button>
+            </div>
+            <p id="status-detail" class="hint"></p>
+            <p id="crew-status" class="visually-hidden">Ready to submit</p>
+            <span id="status-dot" hidden></span>
+          </form>
+        </section>
+      </div>
+      <details class="panel demo">
+        <summary>Demo setup and technical details</summary>
+        <div class="demo-body">
+          <p>Reset form clears this page only. It does not delete saved cases. To clear the local case file, stop the server and run <code>.venv/bin/python -m onboarding.reset_demo</code>.</p>
+          <p id="last-updated">Last received: not yet</p>
+          <button id="reset" type="button">Reset form</button>
+          <button id="copy-hire" type="button">Copy hire id</button>
+        </div>
+      </details>
+    </main>
+    <dialog id="approve-dialog">
+      <p id="approve-copy"></p>
+      <div class="actions">
+        <button id="approve-cancel" type="button" value="cancel">Cancel</button>
+        <button id="approve-confirm" type="button">Record decision</button>
+      </div>
+    </dialog>
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

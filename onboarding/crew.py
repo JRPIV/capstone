@@ -1,9 +1,10 @@
 """Sequential two-task crew. The page does not import this module."""
 
+import os
 from pathlib import Path
 
 import yaml
-from crewai import Agent, Crew, Process, Task
+from crewai import LLM, Agent, Crew, Process, Task
 from crewai.tools import tool
 
 from onboarding.tools.read_prepared_cases import prepared_cases_json
@@ -38,8 +39,15 @@ def run_crew(model: str) -> str:
     tasks_config = _load_yaml("tasks.yaml")
     _validate_tools(agents_config)
     _validate_tasks(tasks_config)
-    reader = _build_agent("fixture_reader", agents_config["fixture_reader"], model)
-    reporter = _build_agent("case_reporter", agents_config["case_reporter"], model)
+    llm = LLM(
+        model=model,
+        api_key=os.environ["GEMINI_API_KEY"],
+        temperature=0,
+        timeout=45,
+        max_retries=0,
+    )
+    reader = _build_agent("fixture_reader", agents_config["fixture_reader"], llm)
+    reporter = _build_agent("case_reporter", agents_config["case_reporter"], llm)
     agents = {"fixture_reader": reader, "case_reporter": reporter}
     load_task = _build_task("load_prepared_cases", tasks_config["load_prepared_cases"], agents, None)
     report_task = _build_task(
@@ -89,7 +97,7 @@ def _validate_tasks(tasks_config: dict) -> None:
         raise ToolBindingError("report_prepared_cases context is not load_prepared_cases")
 
 
-def _build_agent(name: str, config: dict, model: str) -> Agent:
+def _build_agent(name: str, config: dict, llm: LLM) -> Agent:
     if config.get("allow_delegation") is not False:
         raise ToolBindingError(f"{name} must set allow_delegation false")
     if int(config.get("max_iter", 0)) != 2:
@@ -104,7 +112,7 @@ def _build_agent(name: str, config: dict, model: str) -> Agent:
         max_execution_time=60,
         max_retry_limit=2,
         tools=tools,
-        llm=model,
+        llm=llm,
         verbose=False,
     )
 

@@ -2,20 +2,20 @@
 
 ## Frontend Workflow Overview
 
-This is the Sprint 3 demonstration page for the automated employee onboarding capstone. One operator uses it locally. The page shows prepared sample cases. It does not contact a live system, and no crew process is running.
+This is the Sprint 3 demonstration page for the automated employee onboarding capstone. One operator uses it locally. The supported intake contacts the local intake API. No crew process is running.
 
 1. **Who starts.** The operator opens the onboarding page and starts a run. One person plays the simulated HR coordinator, hiring manager, IT fulfiller, and new hire. The page does not ask a live crew to begin.
-2. **What they give.** They choose one prepared example and press Run. The examples are Riley Chen’s complete supported hire, Jordan Lee’s hire with the role missing, Jordan Lee’s plan waiting for HR approval, or a practice failure that writes nothing.
-3. **What happens.** The page marks the run as underway, then returns the fixed sample for that example. Reset clears the form and the result and returns the page to its start. After the practice failure, Retry sends that same failed example again, even if a different example was chosen afterward.
-4. **How they know.** The banner reads Crew: idle, Crew: running, or Crew: done. A dot is gray, blue, or green for those three, and red when an error is showing. The banner also says that no crew process is running. The last-updated time changes when a result appears, when an error appears, or when Reset is used. An error is written in words, and Retry is shown.
-5. **What they get.** A successful example shows a verified case: what happened, whether the plan is active, held, or only proposed, whether it needs attention, who should act next, and the tasks. Riley’s case is an active plan with four tasks and still needs attention. Jordan’s missing-role case has no tasks and asks the manager to confirm the role. Jordan’s other case is a proposed plan that is not active until HR approval. The practice failure adds no case and says no new verified fact was written.
+2. **What they give.** They choose an action, then Riley Chen’s complete supported intake or Jordan Lee’s held intake, or a later event for a displayed hire. Jordan Lee’s proposed plan and the practice failure stay unavailable.
+3. **What happens.** The page sends the existing event to the local API and shows the hire that API returns. Reset form clears the form and does not delete saved cases. Retry original event sends the same event id and the same recorded contents. New event only fills a new id.
+4. **How they know.** The status reads Ready to submit, Processing event, Event complete, Event failed, Connection lost — outcome unknown, or Still waiting — outcome unknown. The case stays on screen while an event runs. A policy answer still uses only the listed question patterns. Approving a held plan asks for confirmation and does not confirm missing evidence.
+5. **What they get.** A successful Riley intake shows the hire returned by the API: readiness, what needs attention, the tasks, and the server-assigned hire id. Riley’s case needs attention and has four tasks. The other examples are not returned.
 
-**Status:** Sprint 3 build spec approved and implemented. The four `workspace/` files exist. No live backend is connected.  
+**Status:** Sprint 3 build spec approved and implemented. The four `workspace/` files exist. Riley Chen’s supported intake and Jordan Lee’s held intake call the local intake API. Reply, policy question, HR decision, start-date change, and deadline use the same Run control. Jordan’s proposed-plan scenario and the practice failure stay disconnected.  
 **Product:** Automated Employee Onboarding Workflow  
 **Persona:** frontend-eng  
 **Action:** document-frontend  
 **Project mode:** greenfield (`aamad.config.yml`)  
-**UX contract:** `project-context/1.define/ux.md`, Approval `approved` (2026-11-19)
+**UX contract:** `project-context/1.define/ux.md`, Approval `approved`. The 2026-11-26 workspace redesign is the current visual contract.
 
 C1–C8 are Sprint 3 implementation exceptions. They are not edits to the PRD, the SAD, or the approved `ux.md`. Those contracts stay in force for the MVP. This page is the sprint demonstration. A later increment returns to the full workspace, the four page states, the submit-event and hire-read contracts, and the resilience rules.
 
@@ -33,12 +33,12 @@ The professor asked for a simple page on stubbed services. The approved `ux.md` 
 | C2 | Reset clears the form, the result, and the in-memory stub. | `ux.md`: no reset control this sprint. SAD: Reset restores a case-store fixture and is not an event on a hire. PRD: D-rows start from a reset. | This button is a local clear. It is not the SAD test operation. |
 | C3 | Retry resubmits a snapshot taken when the failed run started. Later edits to the form do not change that snapshot. | `ux.md`: Run is the only primary action. Retrying is Run again. | Retry is a second control. Its payload rule is section 2.4. |
 | C4 | `startRun` and `getRunStatus` return fixed objects. | SAD section 4: submit an event, then read a hire. No run-status API. | Temporary adapters. Section 2.5. They are removed when the live client is bound. |
-| C5 | Banner text is `Crew: idle`, `Crew: running`, or `Crew: done`, plus “Stubbed status. No crew process is running.” | `ux.md` has no crew banner. The SAD says CrewAI is not the entry point. | The word Crew names the stub machine. It does not start a process and it does not change the pattern. |
+| C5 | Banner text is `Crew: idle`, `Crew: running`, or `Crew: done`, plus “A policy answer uses only the listed question patterns. Approving a plan sends an HR decision as Alex Rivera.” | `ux.md` has no crew banner. The SAD says CrewAI is not the entry point. | The word Crew names the page machine. It does not start a process and it does not change the pattern. |
 | C6 | This stub does not generate an event id and does not simulate replay, `conflict`, `event_mismatch`, or a lost acknowledgment. | `ux.md` and SAD CR-005. UX-006, UX-011, UX-012, and UX-014. | Deferred past this demo. The rules remain the product rules. |
 | C7 | The page implements the baseline in section 2.9. | `ux.md` and PRD §5: headings, labels, keyboard, visible focus, text contrast, errors tied to fields. | Advanced accessibility testing and the resilience paths wait. The baseline does not wait. |
-| C8 | One Scenario select and the fixtures in section 2.6. | `ux.md`: every event type, role selector, occurred-at, per-field checks, client-generated intake event id. | The full form remains the later MVP surface. This select is the demo input. |
+| C8 | Event type selects Intake, Reply, Policy question, Start-date change, Deadline, or HR decision. Intake keeps the scenario select. The other types use the sender, hire id, event id, occurred-at, and text fields. HR decision adds the decision and plan version. | `ux.md`: every event type, role selector, occurred-at, per-field checks, client-generated intake event id. | Jordan’s proposed-plan scenario and the practice failure stay disabled. The sender list includes Sam Ortiz and Jordan Lee. |
 
-**Aligned with the contracts.** No network, no streaming, no tool-call details, no cost tracking, and no model call. Status words sit beside the color dot, so color is not the only signal. The dot colors may replace the starting swatches. `ux.md` section 4 allows that replacement. Text uses the `ux.md` text pairs in section 2.9.
+**Aligned with the contracts.** The page calls the local API. There is no streaming, no tool-call detail, no cost tracking, and no model call on the page. Status words sit beside the color dot, so color is not the only signal. The dot colors may replace the starting swatches. `ux.md` section 4 allows that replacement. Text uses the `ux.md` text pairs in section 2.9.
 
 **Sprint-only addition.** A last-updated time sits in the banner. It is not written into `ux.md`. It leaves with this demo unless a later UX revision keeps it.
 
@@ -55,7 +55,7 @@ One static page. No framework, no package manifest, no route, no server.
 | `workspace/src/main.js` | State, snapshot, controls, and rendering |
 | `workspace/src/stub.js` | Temporary `startRun` and `getRunStatus` adapters, and the four payloads |
 
-Open the HTML file in a browser. Nothing is fetched.
+Open http://127.0.0.1:8000/ while `python -m onboarding.server` is running. The supported intake fetches `POST /events` and then `GET /hires/<hire_id>`.
 
 Regions, top to bottom: banner, Inputs, the three controls, Results. The `h1` is “Onboarding case”. The subtitle is “Sprint 3: Inputs, Run, Results.” Each region is a `section` with an `h2`.
 
@@ -71,7 +71,7 @@ The banner is the stub’s state. It is not a connection to CrewAI.
 
 When an inline error is present, the dot is red `#9b2c2c`. The banner text stays “Crew: idle”. The error sentence is in the banner region, associated with the form as section 2.9 describes.
 
-Under the status line, always: “Stubbed status. No crew process is running.”
+Under the status line, the page says “A policy answer uses only the listed question patterns. Approving a plan sends an HR decision as Alex Rivera.”
 
 **Last updated** sits in the banner. Before the first finished attempt it reads “Last updated: not yet”. It changes when a run reaches done, when an inline error is set, and when Reset completes. The value is the browser’s local time. It does not tick on its own.
 
@@ -131,7 +131,7 @@ The `stub-failure` payload is always the error object. Retry of that snapshot sh
 
 `run_id` is always `run-stub-1`. `getRunStatus` returns the payload for that remembered `scenario_id` when `runId` is `run-stub-1`. Any other `runId` returns the error payload. The functions do not compute readiness, tasks, or policy. They do not call `fetch`, a socket, a model, or CrewAI. The returned cases use the section 4 fields the page renders (`hire_id`, plan, tasks, readiness, `failure`) so the same rendering can later show a real hire read.
 
-The page calls `startRun` once and then `getRunStatus` once. It does not poll.
+The page posts one intake and then reads that hire. It does not poll, and it does not call `startRun` or `getRunStatus`.
 
 ### 2.6 Dummy scenarios
 
@@ -291,3 +291,36 @@ None for implementation of this spec. The D12 hire remains unnamed in the PRD an
 - **Prompt trace:** Omitted. This entry records a reader overview of the existing Sprint 3 page. It does not call the product model and it does not change behavior.
 - **Tool use:** Read the opening and closing of `project-context/2.build/frontend.md`. No application source was edited.
 - **Outcome:** Added “Frontend Workflow Overview” at the start of this file. Approval status, exceptions, and implementation notes are unchanged.
+
+- **Timestamp:** 2026-11-26T16:28:00Z
+- **Persona ID:** integration-eng
+- **Action:** sync-docs
+- **Resolved runtime:** crewai, from `aamad.config.yml` `runtime.target` and the adapter-registry default. `AAMAD_TARGET_RUNTIME` was unset.
+- **Prompt trace:** Omitted. This entry records approved descriptive sentence replacements. It does not call the product model.
+- **Outcome:** Operator approved the descriptive updates. The overview, status, launch sentence, banner sentence, and intake call now match the connected Riley intake. PRD, SAD, and `ux.md` were not edited.
+
+- **Timestamp:** 2026-11-26T17:50:00Z
+- **Persona ID:** integration-eng
+- **Action:** sync-docs
+- **Resolved runtime:** crewai, from `aamad.config.yml` `runtime.target` and the adapter-registry default. `AAMAD_TARGET_RUNTIME` was unset.
+- **Prompt trace:** Omitted. This entry records approved descriptive sentence replacements. It does not call the product model.
+- **Outcome:** Operator approved the updates. The banner sentence, the reply fields, and the local API call now match the connected reply. PRD, SAD, and `ux.md` were not edited.
+
+- **Timestamp:** 2026-11-26T21:20:00Z
+- **Persona ID:** integration-eng
+- **Action:** sync-docs
+- **Resolved runtime:** crewai, from `aamad.config.yml` `runtime.target` and the adapter-registry default. `AAMAD_TARGET_RUNTIME` was unset.
+- **Prompt trace:** Omitted. The operator approved descriptive updates for this change set before implementation.
+- **Outcome:** The banner, C5, and C8 now say policy question is connected and HR approval, start-date change, and deadline are not. PRD, SAD, and `ux.md` were not edited.
+- **Timestamp:** 2026-11-26T21:40:00Z
+- **Persona ID:** integration-eng
+- **Action:** sync-docs
+- **Resolved runtime:** crewai. `AAMAD_TARGET_RUNTIME` was unset.
+- **Outcome:** Jordan’s held intake, HR decision, start-date change, and deadline are connected on the page. The proposed-plan scenario and the practice failure stay disconnected. PRD, SAD, and `ux.md` were not edited.
+
+- **Timestamp:** 2026-11-26T21:55:00Z
+- **Persona ID:** frontend-eng
+- **Action:** develop-fe
+- **Resolved runtime:** crewai. `AAMAD_TARGET_RUNTIME` was unset.
+- **Prompt trace:** Omitted. The visual contract was already approved. No product-model call and no secrets.
+- **Outcome:** Replaced the Sprint 3 page layout with the approved workspace. The event payloads, polling, retry, and sender checks are unchanged. PRD and SAD were not edited.

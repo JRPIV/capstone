@@ -1,0 +1,10 @@
+.venv
+.env
+.git
+onboarding/data
+__pycache__
+**/__pycache__
+**/*.pyc
+submission
+project-context
+.cursor
